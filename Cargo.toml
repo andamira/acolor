@@ -1,0 +1,35 @@
+[package]
+name = "acolor"
+description = "simple color types, operations and conversions"
+version = "0.0.1"
+edition = "2021"
+resolver = "2"
+rust-version = "1.64.0"
+authors = ["José Luis Cruz <joseluis@andamira.net>"]
+repository = "https://github.com/andamira/acolor"
+documentation = "https://docs.rs/acolor"
+license = "MIT OR Apache-2.0"
+include = [
+	"/src/**/*.rs",
+	"/Cargo.toml",
+	"/res/*",
+	"/README.md",
+	"/LICENSE-*",
+]
+categories = []
+keywords = []
+publish = false
+
+[dependencies]
+iunorm = "0.1.2"
+
+[features]
+default = ["std"]
+std = []
+
+[dev-dependencies]
+
+[badges]
+# actively-developed, passively-maintained, looking-for-maintainer, as-is,
+# experimental, deprecated, none
+maintenance = { status = "experimental" }
