@@ -26,7 +26,7 @@ pub mod srgb;
 #[doc(inline)]
 pub use srgb::{
     linear_srgb_to_srgb_32, linearize_32, nonlinearize_32, srgb_to_linear_srgb_32, LinearSrgb32,
-    Srgb32, Srgb8, Srgba8,
+    LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8,
 };
 
 pub mod oklab;
@@ -35,6 +35,8 @@ pub use oklab::{
     linear_srgb_to_oklab_32, oklab_to_linear_srgb_32, oklab_to_oklch_32, oklch_to_oklab_32,
     Oklab32, Oklch32,
 };
+
+mod external;
 
 // mod aces;
 // pub use aces::*;
@@ -60,7 +62,7 @@ pub(crate) fn clamp<T: PartialOrd>(value: T, vmin: T, vmax: T) -> T {
 
 #[cfg(test)]
 mod tests {
-    use super::{min, max, clamp};
+    use super::{clamp, max, min};
 
     #[test]
     fn test_clamp() {

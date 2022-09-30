@@ -8,6 +8,17 @@
 //! - <https://en.wikipedia.org/wiki/SRGB>
 //! - <https://www.w3.org/TR/css-color-4/#numeric-srgb>
 //
+// # TOC
+// - definitions
+//   - Srgb8
+//   - Srgba8
+//   - Srgb32
+//   - Srgba32
+//   - LinearSrgb32
+//   - LinearSrgba32
+// - conversions
+// - utils
+//
 
 use iunorm::Unorm8;
 
@@ -27,6 +38,13 @@ pub struct Srgb8 {
     /// Blue luminosity.
     pub b: u8,
 }
+/// # Constructors
+impl Srgb8 {
+    /// New Srgb8.
+    pub fn new(r: u8, g: u8, b: u8) -> Srgb8 {
+        Self { r, g, b }
+    }
+}
 
 /// Non-linear sRGB+A color representation using `4` × [`u8`] components.
 ///
@@ -42,6 +60,13 @@ pub struct Srgba8 {
     /// Alpha
     pub a: u8,
 }
+/// # Constructors
+impl Srgba8 {
+    /// New Srgba8.
+    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Srgba8 {
+        Self { r, g, b, a }
+    }
+}
 
 /// Non-linear sRGB color representation using `3` × [`f32`] components.
 ///
@@ -54,6 +79,35 @@ pub struct Srgb32 {
     pub g: f32,
     /// Blue luminosity.
     pub b: f32,
+}
+/// # Constructors
+impl Srgb32 {
+    /// New Srgb32.
+    pub fn new(r: f32, g: f32, b: f32) -> Srgb32 {
+        Self { r, g, b }
+    }
+}
+
+/// Non-linear sRGB+A color representation using `4` × [`f32`] components.
+///
+/// Values are normalized between `[0.0 .. 1.0]`
+#[derive(Debug, Clone, Copy, Default, PartialEq, PartialOrd)]
+pub struct Srgba32 {
+    /// Red luminosity.
+    pub r: f32,
+    /// Green luminosity.
+    pub g: f32,
+    /// Blue luminosity.
+    pub b: f32,
+    /// Alpha.
+    pub a: f32,
+}
+/// # Constructors
+impl Srgba32 {
+    /// New Srgba32.
+    pub fn new(r: f32, g: f32, b: f32, a: f32) -> Srgba32 {
+        Self { r, g, b, a }
+    }
 }
 
 /// Linear sRGB color representation using `3` × [`f32`] components.
@@ -69,6 +123,37 @@ pub struct LinearSrgb32 {
     pub g: f32,
     /// Blue luminosity.
     pub b: f32,
+}
+/// # Constructors
+impl LinearSrgb32 {
+    /// New LinearSrgb32.
+    pub fn new(r: f32, g: f32, b: f32) -> LinearSrgb32 {
+        Self { r, g, b }
+    }
+}
+
+/// Linear sRGB+A color representation using `4` × [`f32`] components.
+///
+/// Values are normalized between `[0.0 .. 1.0]`
+///
+/// Better suited for physical calculations.
+#[derive(Debug, Clone, Copy, Default, PartialEq, PartialOrd)]
+pub struct LinearSrgba32 {
+    /// Red luminosity.
+    pub r: f32,
+    /// Green luminosity.
+    pub g: f32,
+    /// Blue luminosity.
+    pub b: f32,
+    /// Alpha.
+    pub a: f32,
+}
+/// # Constructors
+impl LinearSrgba32 {
+    /// New LinearSrgba32.
+    pub fn new(r: f32, g: f32, b: f32, a: f32) -> LinearSrgba32 {
+        Self { r, g, b, a }
+    }
 }
 
 /* conversions */
