@@ -1,13 +1,17 @@
-// acolor::color::srgb
+// acolor::srgb
 //
 //! Standard RGB color space.
 //!
 //! Linear and non-linear variants.
+//!
+//! # Links
+//! - <https://en.wikipedia.org/wiki/SRGB>
+//! - <https://www.w3.org/TR/css-color-4/#numeric-srgb>
 //
 
 use iunorm::Unorm8;
 
-use super::{linear_srgb_to_oklab_32, oklab_to_linear_srgb_32, Oklab32};
+use super::{linear_srgb_to_oklab_32, oklab_to_linear_srgb_32, Oklab32, GAMMA_32};
 
 /* definitions */
 
@@ -22,6 +26,21 @@ pub struct Srgb8 {
     pub g: u8,
     /// Blue luminosity.
     pub b: u8,
+}
+
+/// Non-linear sRGB+A color representation using `4` × [`u8`] components.
+///
+/// Better suited for saving to the final graphics buffer.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Srgba8 {
+    /// Red luminosity.
+    pub r: u8,
+    /// Green luminosity.
+    pub g: u8,
+    /// Blue luminosity.
+    pub b: u8,
+    /// Alpha
+    pub a: u8,
 }
 
 /// Non-linear sRGB color representation using `3` × [`f32`] components.
@@ -55,44 +74,57 @@ pub struct LinearSrgb32 {
 /* conversions */
 
 /// Converts from [`LinearSrgb32`] to [`Srgb32`] color spaces.
+#[inline]
 pub fn linear_srgb_to_srgb_32(c: LinearSrgb32) -> Srgb32 {
-    let nonlinearize = |x: f32| {
-        if x >= 0.0031308 {
-            x.powf(1.0 / crate::GAMMA_32) * 1.055 - 0.055
-        } else {
-            x * 12.92
-        }
-    };
-
     Srgb32 {
-        r: nonlinearize(c.r),
-        g: nonlinearize(c.g),
-        b: nonlinearize(c.b),
+        r: nonlinearize_32(c.r, GAMMA_32),
+        g: nonlinearize_32(c.g, GAMMA_32),
+        b: nonlinearize_32(c.b, GAMMA_32),
     }
 }
 
 /// Converts from [`LinearSrgb32`] to [`Srgb32`] color spaces.
+#[inline]
 pub fn srgb_to_linear_srgb_32(c: Srgb32) -> LinearSrgb32 {
-    let linearize = |x: f32| {
-        if x >= 0.04045 {
-            ((x + 0.055) / 1.055).powf(crate::GAMMA_32)
-        } else {
-            x / 12.92
-        }
-    };
-
     LinearSrgb32 {
-        r: linearize(c.r),
-        g: linearize(c.g),
-        b: linearize(c.b),
+        r: linearize_32(c.r, GAMMA_32),
+        g: linearize_32(c.g, GAMMA_32),
+        b: linearize_32(c.b, GAMMA_32),
     }
 }
 
 /// # Direct conversions
 impl Srgb8 {
+    /// Direct conversion from [`Srgba8`].
+    ///
+    /// Looses the alpha channel.
+    #[inline]
+    pub fn from_srgba8(c: Srgba8) -> Srgb8 {
+        Srgb8 {
+            r: c.r,
+            g: c.g,
+            b: c.b,
+        }
+    }
+
+    /// Direct conversion to [`Srgba8`].
+    ///
+    /// Expects the alpha channel.
+    #[inline]
+    pub fn to_srgba8(&self, alpha: u8) -> Srgba8 {
+        Srgba8 {
+            r: self.r,
+            g: self.g,
+            b: self.b,
+            a: alpha,
+        }
+    }
+
+    //
+
     /// Direct conversion from [`Srgb32`].
     #[inline]
-    pub fn from_srgb32(c: Srgb32) -> Self {
+    pub fn from_srgb32(c: Srgb32) -> Srgb8 {
         Self {
             r: Unorm8::from_f32(c.r).0,
             g: Unorm8::from_f32(c.g).0,
@@ -195,6 +227,11 @@ impl LinearSrgb32 {
     }
 }
 
+/// # Indirect conversions
+impl LinearSrgb32 {
+    // TODO: OKLCH
+}
+
 mod impl_from {
     use super::*;
 
@@ -235,6 +272,28 @@ mod impl_from {
         fn from(c: Oklab32) -> LinearSrgb32 {
             oklab_to_linear_srgb_32(c)
         }
+    }
+}
+
+/* utils */
+
+///
+#[inline]
+pub fn nonlinearize_32(linear: f32, gamma: f32) -> f32 {
+    if linear >= 0.0031308 {
+        (1.055) * linear.powf(1.0 / gamma) - 0.055
+    } else {
+        12.92 * linear
+    }
+}
+
+///
+#[inline]
+pub fn linearize_32(nonlinear: f32, gamma: f32) -> f32 {
+    if nonlinear >= 0.04045 {
+        ((nonlinear + 0.055) / (1. + 0.055)).powf(gamma)
+    } else {
+        nonlinear / 12.92
     }
 }
 
