@@ -83,6 +83,7 @@ mod macroquad {
 #[cfg(feature = "sdl2")]
 mod sdl2 {
     use crate::{Srgb8, Srgba8};
+    use sdl2::gfx::primitives::ToColor;
     use sdl2::pixels::Color;
 
     impl From<Srgb8> for Color {
@@ -106,6 +107,12 @@ mod sdl2 {
             Srgb8::new(c.r, c.g, c.b)
         }
     }
+    impl ToColor for Srgb8 {
+        /// Automatically adds alpha at max opacity.
+        fn as_rgba(&self) -> (u8, u8, u8, u8) {
+            (self.r, self.g, self.b, u8::MAX)
+        }
+    }
 
     impl From<Srgba8> for Color {
         /// Into [sdl2's `Color`][0].
@@ -126,6 +133,11 @@ mod sdl2 {
         /// [0]: https://docs.rs/sdl2/latest/sdl2/pixels/struct.Color.html
         fn from(c: Color) -> Srgba8 {
             Srgba8::new(c.r, c.g, c.b, c.a)
+        }
+    }
+    impl ToColor for Srgba8 {
+        fn as_rgba(&self) -> (u8, u8, u8, u8) {
+            (self.r, self.g, self.b, self.a)
         }
     }
 }
