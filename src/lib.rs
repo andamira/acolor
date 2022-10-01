@@ -25,16 +25,12 @@ pub const GAMMA_32: f32 = 2.4;
 pub mod srgb;
 #[doc(inline)]
 pub use srgb::{
-    linear_srgb_to_srgb_32, linearize_32, nonlinearize_32, srgb_to_linear_srgb_32, LinearSrgb32,
-    LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8,
+    linearize32, nonlinearize32, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8,
 };
 
 pub mod oklab;
 #[doc(inline)]
-pub use oklab::{
-    linear_srgb_to_oklab_32, oklab_to_linear_srgb_32, oklab_to_oklch_32, oklch_to_oklab_32,
-    Oklab32, Oklch32,
-};
+pub use oklab::{Oklab32, Oklch32};
 
 mod external;
 

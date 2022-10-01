@@ -12,7 +12,7 @@
 //! - <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab>
 //
 
-use super::{clamp, max, min, LinearSrgb32};
+use super::{clamp, max, min, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 use core::f32::consts::PI as PI_32;
 
 /* definitions */
@@ -31,7 +31,7 @@ pub struct Oklab32 {
     pub l: f32,
     /// The distance along the `a` axis from **greenish cyan** to **purplish red**.
     pub a: f32,
-    /// The distance along the `b` axis, form **sky blue** to **mustard yellow**.
+    /// The distance along the `b` axis, from **sky blue** to **mustard yellow**.
     pub b: f32,
 }
 
@@ -140,22 +140,16 @@ impl Oklch32 {
     pub const H_MAX: f32 = 360.;
 }
 
-/// # Operations
-impl Oklch32 {
-    // TODO: use Oklab
-    //
-    // /// Measures the perceptual distance to another Oklch color
-    // pub fn squared_distance(&self, other: &Oklch32) -> f32 {
-    //     // CHECK:FIX: wrap polar coordinate
-    //     (self.l - other.l).powi(2) + (self.c - other.c).powi(2) + (self.h - other.h).powi(2)
-    // }
-}
+// // TODO
+// /// # Operations
+// impl Oklch32 {
+// }
 
 /* conversions */
 
-/// Converts from [`Oklab32`] to [`Oklch32`] color spaces.
+// Converts from [`Oklab32`] to [`Oklch32`] color spaces.
 #[inline]
-pub fn oklab_to_oklch_32(c: Oklab32) -> Oklch32 {
+fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
     // TODO CHECK both versions
     //
     // Oklch32 {
@@ -183,9 +177,9 @@ pub fn oklab_to_oklch_32(c: Oklab32) -> Oklch32 {
     // }
 }
 
-/// Converts from [`Oklch32`] to [`Oklab32`] color spaces.
+// Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
-pub fn oklch_to_oklab_32(c: Oklch32) -> Oklab32 {
+fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
     // TODO: CHECK both versions
     // Oklab32 {
     //     l: c.l,
@@ -208,7 +202,7 @@ pub fn oklch_to_oklab_32(c: Oklch32) -> Oklab32 {
 }
 
 /// Converts from [`LinearSrgb32`] to [`Oklab32`] color spaces.
-pub fn linear_srgb_to_oklab_32(c: LinearSrgb32) -> Oklab32 {
+fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
     let l = (0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b).cbrt();
     let m = (0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b).cbrt();
     let s = (0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b).cbrt();
@@ -221,7 +215,7 @@ pub fn linear_srgb_to_oklab_32(c: LinearSrgb32) -> Oklab32 {
 }
 
 /// Converts from [`Oklab32`] to [`LinearSrgb32`] color spaces.
-pub fn oklab_to_linear_srgb_32(c: Oklab32) -> LinearSrgb32 {
+fn oklab32_to_linear_srgb32(c: Oklab32) -> LinearSrgb32 {
     let _l = c.l + 0.3963377774 * c.a + 0.2158037573 * c.b;
     let _m = c.l - 0.1055613458 * c.a - 0.0638541728 * c.b;
     let _s = c.l - 0.0894841775 * c.a - 1.2914855480 * c.b;
@@ -237,109 +231,304 @@ pub fn oklab_to_linear_srgb_32(c: Oklab32) -> LinearSrgb32 {
     }
 }
 
-/// # Conversions
+/// # Direct conversions
 impl Oklab32 {
+    // LinearSrgb32
+
     /// Direct conversion from [`LinearSrgb32`].
     #[inline]
-    pub fn from_linear_srgb(c: LinearSrgb32) -> Self {
-        c.into()
+    pub fn from_linear_srgb32(c: LinearSrgb32) -> Oklab32 {
+        linear_srgb32_to_oklab32(c)
     }
 
     /// Direct conversion to [`LinearSrgb32`].
     #[inline]
-    pub fn to_linear_srgb(&self) -> LinearSrgb32 {
-        oklab_to_linear_srgb_32(*self)
+    pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
+        oklab32_to_linear_srgb32(*self)
     }
+
+    // LinearSrgba32
+
+    /// Direct conversion from [`LinearSrgba32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_linear_srgba32(c: LinearSrgba32) -> Oklab32 {
+        c.to_linear_srgb32().to_oklab32()
+    }
+
+    /// Direct conversion to [`LinearSrgba32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
+        oklab32_to_linear_srgb32(*self).to_linear_srgba32(alpha)
+    }
+
+    // Oklch32
 
     /// Direct conversion to [`Oklch32`].
     #[inline]
-    pub fn to_oklch(&self) -> Oklch32 {
-        oklab_to_oklch_32(*self)
+    pub fn to_oklch32(&self) -> Oklch32 {
+        oklab32_to_oklch32(*self)
     }
 
     /// Direct conversion from [`Oklch32`].
     #[inline]
-    pub fn from_oklch(c: Oklch32) -> Self {
-        c.into()
+    pub fn from_oklch32(c: Oklch32) -> Oklab32 {
+        oklch32_to_oklab32(c)
     }
 }
 
-/// # Conversions
+/// # Indirect conversions
+impl Oklab32 {
+    // Srgb8
+
+    /// Indirect conversion from [`Srgb8`].
+    #[inline]
+    pub fn from_srgb8(c: Srgb8) -> Oklab32 {
+        c.to_oklab32()
+    }
+
+    /// Indirect conversion to [`Srgb8`].
+    #[inline]
+    pub fn to_srgb8(&self) -> Srgb8 {
+        self.to_linear_srgb32().to_srgb32().to_srgb8()
+    }
+
+    // Srgb8
+
+    /// Indirect conversion from [`Srgba8`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_srgba8(c: Srgba8) -> Oklab32 {
+        c.to_oklab32()
+    }
+
+    /// Indirect conversion to [`Srgba8`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_srgba8(&self, alpha: u8) -> Srgba8 {
+        self.to_linear_srgb32().to_srgb32().to_srgba8(alpha)
+    }
+
+    // Srgb32
+
+    /// Indirect conversion from [`Srgb32`].
+    #[inline]
+    pub fn from_srgb32(c: Srgb32) -> Oklab32 {
+        c.to_oklab32()
+    }
+
+    /// Indirect conversion to [`Srgb32`].
+    #[inline]
+    pub fn to_srgb32(&self) -> Srgb32 {
+        self.to_linear_srgb32().to_srgb32()
+    }
+
+    // Srgba32
+
+    /// Indirect conversion from [`Srgba32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_srgba32(c: Srgba32) -> Oklab32 {
+        c.to_oklab32()
+    }
+
+    /// Indirect conversion to [`Srgba32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
+        self.to_linear_srgba32(alpha).to_srgba32()
+    }
+}
+
+/// # Direct conversions
 impl Oklch32 {
+    // Oklab32
+
     /// Direct conversion from [`Oklab32`].
     #[inline]
-    pub fn from_oklab(c: Oklab32) -> Oklch32 {
-        c.into()
+    pub fn from_oklab32(c: Oklab32) -> Oklch32 {
+        oklab32_to_oklch32(c)
     }
 
     /// Direct conversion to [`Oklab32`].
     #[inline]
-    pub fn to_oklab(&self) -> Oklab32 {
-        oklch_to_oklab_32(*self)
+    pub fn to_oklab32(&self) -> Oklab32 {
+        oklch32_to_oklab32(*self)
     }
 }
 
-/*
-// TODO
+/// # Indirect conversions
+impl Oklch32 {
+    // Srgb8
 
-function XYZ_to_OKLab(XYZ) {
-    // Given XYZ relative to D65, convert to OKLab
-    var XYZtoLMS = [
-        [ 0.8190224432164319,    0.3619062562801221,   -0.12887378261216414  ],
-        [ 0.0329836671980271,    0.9292868468965546,     0.03614466816999844 ],
-        [ 0.048177199566046255,  0.26423952494422764,    0.6335478258136937  ]
-    ];
-    var LMStoOKLab = [
-        [  0.2104542553,   0.7936177850,  -0.0040720468 ],
-        [  1.9779984951,  -2.4285922050,   0.4505937099 ],
-        [  0.0259040371,   0.7827717662,  -0.8086757660 ]
-    ];
+    /// Indirect conversion from [`Srgb8`].
+    #[inline]
+    pub fn from_srgb8(c: Srgb8) -> Oklch32 {
+        c.to_oklch32()
+    }
 
-    var LMS = multiplyMatrices(XYZtoLMS, XYZ);
-    return multiplyMatrices(LMStoOKLab, LMS.map(c => Math.cbrt(c)));
-    // L in range [0,1]. For use in CSS, multiply by 100 and add a percent
+    /// Indirect conversion to [`Srgb8`].
+    #[inline]
+    pub fn to_srgb8(&self) -> Srgb8 {
+        self.to_oklab32().to_linear_srgb32().to_srgb32().to_srgb8()
+    }
+
+    // Srgb8
+
+    /// Indirect conversion from [`Srgba8`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_srgba8(c: Srgba8) -> Oklch32 {
+        c.to_oklch32()
+    }
+
+    /// Indirect conversion to [`Srgba8`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_srgba8(&self, alpha: u8) -> Srgba8 {
+        self.to_oklab32()
+            .to_linear_srgb32()
+            .to_srgb32()
+            .to_srgba8(alpha)
+    }
+
+    // Srgb32
+
+    /// Indirect conversion from [`Srgb32`].
+    #[inline]
+    pub fn from_srgb32(c: Srgb32) -> Oklch32 {
+        c.to_oklch32()
+    }
+
+    /// Indirect conversion to [`Srgb32`].
+    #[inline]
+    pub fn to_srgb32(&self) -> Srgb32 {
+        self.to_oklab32().to_linear_srgb32().to_srgb32()
+    }
+
+    // Srgba32
+
+    /// Indirect conversion from [`Srgba32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_srgba32(c: Srgba32) -> Oklch32 {
+        c.to_oklch32()
+    }
+
+    /// Indirect conversion to [`Srgba32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
+        self.to_oklab32().to_srgba32(alpha)
+    }
+
+    // LinearSrgb32
+
+    /// Indirect conversion from [`LinearSrgb32`].
+    #[inline]
+    pub fn from_linear_srgb32(c: LinearSrgb32) -> Oklch32 {
+        c.to_oklch32()
+    }
+
+    /// Indirect conversion to [`LinearSrgba32`].
+    #[inline]
+    pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
+        self.to_oklab32().to_linear_srgb32()
+    }
+
+    // LinearSrgba32
+
+    /// Indirect conversion from [`LinearSrgba32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_linear_srgba32(c: LinearSrgba32) -> Oklch32 {
+        c.to_oklch32()
+    }
+
+    /// Indirect conversion to [`LinearSrgba32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
+        self.to_oklab32().to_linear_srgba32(alpha)
+    }
 }
-
-function OKLab_to_XYZ(OKLab) {
-    // Given OKLab, convert to XYZ relative to D65
-    var LMStoXYZ =  [
-        [  1.2268798733741557,  -0.5578149965554813,   0.28139105017721583 ],
-        [ -0.04057576262431372,  1.1122868293970594,  -0.07171106666151701 ],
-        [ -0.07637294974672142, -0.4214933239627914,   1.5869240244272418  ]
-    ];
-    var OKLabtoLMS = [
-        [ 0.99999999845051981432,  0.39633779217376785678,   0.21580375806075880339  ],
-        [ 1.0000000088817607767,  -0.1055613423236563494,   -0.063854174771705903402 ],
-        [ 1.0000000546724109177,  -0.089484182094965759684, -1.2914855378640917399   ]
-    ];
-
-    var LMSnl = multiplyMatrices(OKLabtoLMS, OKLab);
-    return multiplyMatrices(LMStoXYZ, LMSnl.map(c => c ** 3));
-}
-
-*/
 
 mod impl_from {
     use super::*;
 
-    impl From<LinearSrgb32> for Oklab32 {
-        #[inline]
-        fn from(c: LinearSrgb32) -> Oklab32 {
-            linear_srgb_to_oklab_32(c)
-        }
-    }
-
-    impl From<Oklch32> for Oklab32 {
-        #[inline]
-        fn from(c: Oklch32) -> Oklab32 {
-            oklch_to_oklab_32(c)
-        }
-    }
+    /* From Oklab32 */
 
     impl From<Oklab32> for Oklch32 {
         #[inline]
         fn from(c: Oklab32) -> Oklch32 {
-            oklab_to_oklch_32(c)
+            c.to_oklch32()
+        }
+    }
+
+    impl From<Oklab32> for Srgb8 {
+        #[inline]
+        fn from(c: Oklab32) -> Srgb8 {
+            c.to_linear_srgb32().to_srgb32().to_srgb8()
+        }
+    }
+
+    impl From<Oklab32> for Srgba8 {
+        /// Automatically adds alpha at max opacity.
+        #[inline]
+        fn from(c: Oklab32) -> Srgba8 {
+            c.to_srgba8(u8::MAX)
+        }
+    }
+
+    impl From<Oklab32> for Srgb32 {
+        #[inline]
+        fn from(c: Oklab32) -> Srgb32 {
+            c.to_srgb32()
+        }
+    }
+
+    impl From<Oklab32> for Srgba32 {
+        /// Automatically adds alpha at max opacity.
+        #[inline]
+        fn from(c: Oklab32) -> Srgba32 {
+            c.to_srgba32(1.)
+        }
+    }
+
+    impl From<Oklab32> for LinearSrgb32 {
+        #[inline]
+        fn from(c: Oklab32) -> LinearSrgb32 {
+            c.to_linear_srgb32()
+        }
+    }
+
+    impl From<Oklab32> for LinearSrgba32 {
+        /// Automatically adds alpha at max opacity.
+        #[inline]
+        fn from(c: Oklab32) -> LinearSrgba32 {
+            c.to_linear_srgba32(1.)
+        }
+    }
+
+    /* From Oklch32 */
+
+    impl From<Oklch32> for Oklab32 {
+        #[inline]
+        fn from(c: Oklch32) -> Oklab32 {
+            c.to_oklab32()
         }
     }
 }

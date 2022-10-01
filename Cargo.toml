@@ -25,10 +25,10 @@ iunorm = "0.1.2"
 
 # optional direct conversions
 
-macroquad = { version = "0.3.24", optional = true }
-notcurses = { version = "3.1.0", optional = true}
-sdl2 = { version = "0.35.2", optional = true }
-tiny-skia = { version = "0.8.1", optional = true }
+macroquad = { version = "0.3.24", optional = true, default-features = false }
+notcurses = { version = "3.1.0", optional = true, default-features = false }
+sdl2 = { version = "0.35.2", optional = true, default-features = false }
+tiny-skia = { version = "0.8.1", optional = true, default-features = false }
 
 [features]
 default = ["std"]
@@ -37,6 +37,9 @@ std = ["tiny-skia?/std"]
 all = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
 
 [dev-dependencies]
+
+[package.metadata.docs.rs]
+features = ["all"]
 
 [badges]
 # actively-developed, passively-maintained, looking-for-maintainer, as-is,

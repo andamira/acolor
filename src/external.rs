@@ -6,41 +6,74 @@
 #[cfg(feature = "macroquad")]
 mod macroquad {
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
-    use macroquad::color::Color;
+    pub use macroquad::color::Color;
 
     // u8
 
     impl From<Srgb8> for Color {
+        /// Into [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Srgb8) -> Color {
             Color::from_rgba(c.r, c.g, c.b, 255)
         }
     }
+    impl From<Color> for Srgb8 {
+        /// From [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
+        fn from(c: Color) -> Srgb8 {
+            Srgb32::new(c.r, c.g, c.b).to_srgb8()
+        }
+    }
 
     impl From<Srgba8> for Color {
+        /// Into [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Srgba8) -> Color {
             Color::from_rgba(c.r, c.g, c.b, c.a)
         }
     }
-
+    impl From<Color> for Srgba8 {
+        /// From [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
+        fn from(c: Color) -> Srgba8 {
+            Srgba32::new(c.r, c.g, c.b, c.a).to_srgba8()
+        }
+    }
     // f32
 
     impl From<Srgb32> for Color {
+        /// Into [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Srgb32) -> Color {
             Color::new(c.r, c.g, c.b, 1.)
         }
     }
     impl From<Color> for Srgb32 {
+        /// From [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Color) -> Srgb32 {
             Srgb32::new(c.r, c.g, c.b)
         }
     }
 
     impl From<Srgba32> for Color {
+        /// Into [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Srgba32) -> Color {
             Color::new(c.r, c.g, c.b, c.a)
         }
     }
     impl From<Color> for Srgba32 {
+        /// From [macroquad's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/macroquad/latest/macroquad/color/struct.Color.html
         fn from(c: Color) -> Srgba32 {
             Srgba32::new(c.r, c.g, c.b, c.a)
         }
@@ -53,6 +86,9 @@ mod sdl2 {
     use sdl2::pixels::Color;
 
     impl From<Srgb8> for Color {
+        /// Into [sdl2's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/sdl2/latest/sdl2/pixels/struct.Color.html
         fn from(c: Srgb8) -> Color {
             Color {
                 r: c.r,
@@ -63,12 +99,18 @@ mod sdl2 {
         }
     }
     impl From<Color> for Srgb8 {
+        /// From [sdl2's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/sdl2/latest/sdl2/pixels/struct.Color.html
         fn from(c: Color) -> Srgb8 {
             Srgb8::new(c.r, c.g, c.b)
         }
     }
 
     impl From<Srgba8> for Color {
+        /// Into [sdl2's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/sdl2/latest/sdl2/pixels/struct.Color.html
         fn from(c: Srgba8) -> Color {
             Color {
                 r: c.r,
@@ -79,6 +121,9 @@ mod sdl2 {
         }
     }
     impl From<Color> for Srgba8 {
+        /// From [sdl2's `Color`][0].
+        ///
+        /// [0]: https://docs.rs/sdl2/latest/sdl2/pixels/struct.Color.html
         fn from(c: Color) -> Srgba8 {
             Srgba8::new(c.r, c.g, c.b, c.a)
         }
