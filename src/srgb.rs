@@ -172,6 +172,38 @@ impl LinearSrgba32 {
 
 /// # Direct conversions
 impl Srgb8 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [u8; 3]) -> Srgb8 {
+        Srgb8 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Srgb8) -> [u8; 3] {
+        [c.r, c.g, c.b]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (u8, u8, u8)) -> Srgb8 {
+        Srgb8 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Srgb8) -> (u8, u8, u8) {
+        (c.r, c.g, c.b)
+    }
+
     // Srgba8
 
     /// Direct conversion from [`Srgba8`].
@@ -281,6 +313,40 @@ impl Srgb8 {
 
 /// # Direct conversions
 impl Srgba8 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [u8; 4]) -> Srgba8 {
+        Srgba8 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+            a: c[3],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Srgba8) -> [u8; 4] {
+        [c.r, c.g, c.b, c.a]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (u8, u8, u8, u8)) -> Srgba8 {
+        Srgba8 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+            a: c.3,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Srgba8) -> (u8, u8, u8, u8) {
+        (c.r, c.g, c.b, c.a)
+    }
+
     // Srgb8
 
     /// Direct conversion from [`Srgb8`].
@@ -405,6 +471,38 @@ impl Srgba8 {
 
 /// # Direct conversions
 impl Srgb32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 3]) -> Srgb32 {
+        Srgb32 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Srgb32) -> [f32; 3] {
+        [c.r, c.g, c.b]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32)) -> Srgb32 {
+        Srgb32 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Srgb32) -> (f32, f32, f32) {
+        (c.r, c.g, c.b)
+    }
+
     // Srgb8
 
     /// Direct conversion from [`Srgb8`].
@@ -537,6 +635,40 @@ impl Srgb32 {
 ///
 /// - From/Into [`Srgb8`], [`Srgba8`], [`Srgb32`], [`LinearSrgb32`], [`LinearSrgba32`].
 impl Srgba32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 4]) -> Srgba32 {
+        Srgba32 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+            a: c[3],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Srgba32) -> [f32; 4] {
+        [c.r, c.g, c.b, c.a]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32, f32)) -> Srgba32 {
+        Srgba32 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+            a: c.3,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Srgba32) -> (f32, f32, f32, f32) {
+        (c.r, c.g, c.b, c.a)
+    }
+
     // Srgb8
 
     /// Direct conversion from [`Srgb8`].
@@ -677,6 +809,38 @@ impl Srgba32 {
 
 /// # Direct conversions
 impl LinearSrgb32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 3]) -> LinearSrgb32 {
+        LinearSrgb32 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: LinearSrgb32) -> [f32; 3] {
+        [c.r, c.g, c.b]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32)) -> LinearSrgb32 {
+        LinearSrgb32 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: LinearSrgb32) -> (f32, f32, f32) {
+        (c.r, c.g, c.b)
+    }
+
     // Srgb32
 
     /// Direct conversion from [`Srgb32`].
@@ -789,6 +953,40 @@ impl LinearSrgb32 {
 
 /// # Direct conversions
 impl LinearSrgba32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 4]) -> LinearSrgba32 {
+        LinearSrgba32 {
+            r: c[0],
+            g: c[1],
+            b: c[2],
+            a: c[3],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: LinearSrgba32) -> [f32; 4] {
+        [c.r, c.g, c.b, c.a]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32, f32)) -> LinearSrgba32 {
+        LinearSrgba32 {
+            r: c.0,
+            g: c.1,
+            b: c.2,
+            a: c.3,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: LinearSrgba32) -> (f32, f32, f32, f32) {
+        (c.r, c.g, c.b, c.a)
+    }
+
     // Srgb32
 
     /// Direct conversion from [`Srgb32`].

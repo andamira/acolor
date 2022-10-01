@@ -233,6 +233,38 @@ fn oklab32_to_linear_srgb32(c: Oklab32) -> LinearSrgb32 {
 
 /// # Direct conversions
 impl Oklab32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 3]) -> Oklab32 {
+        Oklab32 {
+            l: c[0],
+            a: c[1],
+            b: c[2],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Oklab32) -> [f32; 3] {
+        [c.l, c.a, c.b]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32)) -> Oklab32 {
+        Oklab32 {
+            l: c.0,
+            a: c.1,
+            b: c.2,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Oklab32) -> (f32, f32, f32) {
+        (c.l, c.a, c.b)
+    }
+
     // LinearSrgb32
 
     /// Direct conversion from [`LinearSrgb32`].
@@ -349,6 +381,38 @@ impl Oklab32 {
 
 /// # Direct conversions
 impl Oklch32 {
+    // [] ()
+
+    /// Direct conversion from an array.
+    #[inline]
+    pub fn from_array(c: [f32; 3]) -> Oklch32 {
+        Oklch32 {
+            l: c[0],
+            c: c[1],
+            h: c[2],
+        }
+    }
+    /// Direct conversion to an array.
+    #[inline]
+    pub fn to_array(c: Oklch32) -> [f32; 3] {
+        [c.l, c.c, c.h]
+    }
+
+    /// Direct conversion from a tuple.
+    #[inline]
+    pub fn from_tuple(c: (f32, f32, f32)) -> Oklch32 {
+        Oklch32 {
+            l: c.0,
+            c: c.1,
+            h: c.2,
+        }
+    }
+    /// Direct conversion to a tuple.
+    #[inline]
+    pub fn to_tuple(c: Oklch32) -> (f32, f32, f32) {
+        (c.l, c.c, c.h)
+    }
+
     // Oklab32
 
     /// Direct conversion from [`Oklab32`].
@@ -469,7 +533,51 @@ impl Oklch32 {
 mod impl_from {
     use super::*;
 
+    /* From/Into arrays and tuples */
+
+    impl From<[f32; 3]> for Oklab32 {
+        #[inline]
+        fn from(c: [f32; 3]) -> Oklab32 {
+            Oklab32::new(c[0], c[1], c[2])
+        }
+    }
+
+    impl From<(f32, f32, f32)> for Oklab32 {
+        #[inline]
+        fn from(c: (f32, f32, f32)) -> Oklab32 {
+            Oklab32::new(c.0, c.1, c.2)
+        }
+    }
+
+    impl From<[f32; 3]> for Oklch32 {
+        #[inline]
+        fn from(c: [f32; 3]) -> Oklch32 {
+            Oklch32::new(c[0], c[1], c[2])
+        }
+    }
+
+    impl From<(f32, f32, f32)> for Oklch32 {
+        #[inline]
+        fn from(c: (f32, f32, f32)) -> Oklch32 {
+            Oklch32::new(c.0, c.1, c.2)
+        }
+    }
+
     /* From Oklab32 */
+
+    impl From<Oklab32> for [f32; 3] {
+        #[inline]
+        fn from(c: Oklab32) -> [f32; 3] {
+            [c.l, c.a, c.b]
+        }
+    }
+
+    impl From<Oklab32> for (f32, f32, f32) {
+        #[inline]
+        fn from(c: Oklab32) -> (f32, f32, f32) {
+            (c.l, c.a, c.b)
+        }
+    }
 
     impl From<Oklab32> for Oklch32 {
         #[inline]
@@ -524,6 +632,20 @@ mod impl_from {
     }
 
     /* From Oklch32 */
+
+    impl From<Oklch32> for [f32; 3] {
+        #[inline]
+        fn from(c: Oklch32) -> [f32; 3] {
+            [c.l, c.c, c.h]
+        }
+    }
+
+    impl From<Oklch32> for (f32, f32, f32) {
+        #[inline]
+        fn from(c: Oklch32) -> (f32, f32, f32) {
+            (c.l, c.c, c.h)
+        }
+    }
 
     impl From<Oklch32> for Oklab32 {
         #[inline]
