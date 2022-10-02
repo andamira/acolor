@@ -14,6 +14,9 @@
 
 use super::{clamp, max, min, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 
+#[cfg(not(feature = "std"))]
+use libm::{atan2f, cbrtf, cosf, hypotf, powf, sinf};
+
 /* definitions */
 
 /// Oklab color representation using `3` × [`f32`] components.
@@ -75,16 +78,24 @@ impl Oklab32 {
     // CHECK:FIX: saturate
     #[inline]
     pub fn squared_distance(&self, other: &Oklab32) -> f32 {
-        (self.l - other.l).powi(2) + (self.a - other.a).powi(2) + (self.b - other.b).powi(2)
+        #[cfg(feature = "std")]
+        return (self.l - other.l).powi(2)
+            + (self.a - other.a).powi(2)
+            + (self.b - other.b).powi(2);
+
+        #[cfg(not(feature = "std"))]
+        return powf(self.l - other.l, 2.)
+            + powf(self.a - other.a, 2.)
+            + powf(self.b - other.b, 2.);
     }
 
-    ///
-    /// - <https://www.w3.org/TR/css-color-4/#color-difference-OK>
-    #[inline]
-    pub fn distance(&self, other: &Oklab32) -> f32 {
-        ((self.l - other.l).powi(2) + (self.a - other.a).powi(2) + (self.b - other.b).powi(2))
-            .sqrt()
-    }
+    // ///
+    // /// - <https://www.w3.org/TR/css-color-4/#color-difference-OK>
+    // #[inline]
+    // pub fn distance(&self, other: &Oklab32) -> f32 {
+    //     ((self.l - other.l).powi(2) + (self.a - other.a).powi(2) + (self.b - other.b).powi(2))
+    //         .sqrt()
+    // }
 }
 
 /// Oklch color representation using `3` × [`f32`] components.
@@ -149,11 +160,19 @@ impl Oklch32 {
 // Converts from [`Oklab32`] to [`Oklch32`] color spaces.
 #[inline]
 fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
-    Oklch32 {
+    #[cfg(feature = "std")]
+    return Oklch32 {
         l: c.l,
         c: c.a.hypot(c.b),
         h: c.b.atan2(c.a),
-    }
+    };
+
+    #[cfg(not(feature = "std"))]
+    return Oklch32 {
+        l: c.l,
+        c: hypotf(c.a, c.b),
+        h: atan2f(c.b, c.a),
+    };
 
     // // alternative
     // use core::f32::consts::PI as PI_32;
@@ -171,11 +190,18 @@ fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
 // Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
 fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
-    Oklab32 {
+    #[cfg(feature = "std")]
+    return Oklab32 {
         l: c.l,
         a: c.c * c.h.cos(),
         b: c.c * c.h.sin(),
-    }
+    };
+    #[cfg(not(feature = "std"))]
+    return Oklab32 {
+        l: c.l,
+        a: c.c * cosf(c.h),
+        b: c.c * sinf(c.h),
+    };
 
     // // alternative
     // use core::f32::consts::PI as PI_32;
@@ -188,9 +214,18 @@ fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
 
 /// Converts from [`LinearSrgb32`] to [`Oklab32`] color spaces.
 fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
+    #[cfg(feature = "std")]
     let l = (0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b).cbrt();
+    #[cfg(not(feature = "std"))]
+    let l = cbrtf(0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b);
+    #[cfg(feature = "std")]
     let m = (0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b).cbrt();
+    #[cfg(not(feature = "std"))]
+    let m = cbrtf(0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b);
+    #[cfg(feature = "std")]
     let s = (0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b).cbrt();
+    #[cfg(not(feature = "std"))]
+    let s = cbrtf(0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b);
 
     Oklab32 {
         l: 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,

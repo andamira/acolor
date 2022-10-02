@@ -23,7 +23,7 @@ publish = false
 [dependencies]
 iunorm = "0.1.2"
 
-# optional direct conversions
+libm = { version = "0.2.5", optional = true }
 
 macroquad = { version = "0.3.24", optional = true, default-features = false }
 notcurses = { version = "3.1.0", optional = true, default-features = false }
@@ -32,7 +32,9 @@ tiny-skia = { version = "0.8.1", optional = true, default-features = false }
 
 [features]
 default = ["std"]
-std = ["tiny-skia?/std"]
+
+# not using "std" feature depends on "libm"
+std = ["tiny-skia?/std", "float_eq?/std"]
 
 all = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
 

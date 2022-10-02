@@ -32,6 +32,9 @@
 use super::{Oklab32, Oklch32, GAMMA_32};
 use iunorm::Unorm8;
 
+#[cfg(not(feature = "std"))]
+use libm::powf;
+
 // DEFINITIONS
 // -----------------------------------------------------------------------------
 
@@ -1490,7 +1493,10 @@ mod impl_from {
 #[inline]
 pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
     if nonlinear >= 0.04045 {
-        ((nonlinear + 0.055) / (1. + 0.055)).powf(gamma)
+        #[cfg(feature = "std")]
+        return ((nonlinear + 0.055) / (1. + 0.055)).powf(gamma);
+        #[cfg(not(feature = "std"))]
+        return powf((nonlinear + 0.055) / (1. + 0.055), gamma);
     } else {
         nonlinear / 12.92
     }
@@ -1500,7 +1506,10 @@ pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
 #[inline]
 pub fn nonlinearize32(linear: f32, gamma: f32) -> f32 {
     if linear >= 0.0031308 {
-        (1.055) * linear.powf(1.0 / gamma) - 0.055
+        #[cfg(feature = "std")]
+        return (1.055) * linear.powf(1.0 / gamma) - 0.055;
+        #[cfg(not(feature = "std"))]
+        return (1.055) * powf(linear, 1.0 / gamma) - 0.055;
     } else {
         12.92 * linear
     }
