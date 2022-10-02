@@ -1,6 +1,13 @@
 // acolor::external
 //
-//! Optional conversions to external types.
+//! Optional external traits implementations and type conversions.
+//
+// TOC
+// - macroquad
+// - sdl2
+// - tiny-skia
+// - notcurses
+// - approx
 //
 
 #[cfg(feature = "macroquad")]
@@ -242,4 +249,185 @@ mod notcurses {
             Srgba8::new(r, g, b, a)
         }
     }
+}
+
+#[cfg(feature = "approx")]
+mod impl_approx {
+    use crate::{Color, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgba32};
+    use approx::{AbsDiffEq, RelativeEq, UlpsEq};
+
+    // MAYBE add generic versions. E.g. `fn abs<T>(n: T)`.
+    #[cfg(not(feature = "std"))]
+    #[inline(always)]
+    fn abs(n: f32) -> f32 {
+        libm::fabsf(n)
+    }
+    #[cfg(feature = "std")]
+    #[inline(always)]
+    fn abs(n: f32) -> f32 {
+        f32::abs(n)
+    }
+
+    #[cfg(not(feature = "std"))]
+    #[inline(always)]
+    fn signum(n: f32) -> f32 {
+        libm::copysignf(n, 1.0)
+    }
+    #[cfg(feature = "std")]
+    #[inline(always)]
+    fn signum(n: f32) -> f32 {
+        f32::signum(n)
+    }
+
+    // Implements approx traits
+    //
+    // # Args
+    // * $T: the color type (e.g. Srgb32)
+    // * $t: the type of each component (e.g. f32)
+    //
+    // MAYBE divide in two versions, one with just 3 components, for performance.
+    macro_rules! impl_approx {
+        // implements for a series of color types with the same component type
+        (all $t:ty: $( $T:ty ),+) => {
+            $( impl_approx![$T, $t]; )+
+        };
+
+        // implements for a single color type
+        ($T:ty, $t:ty) => {
+            impl AbsDiffEq for $T {
+                type Epsilon = $t;
+                fn default_epsilon() -> $t {
+                    <$t>::EPSILON
+                }
+                fn abs_diff_eq(&self, other: &Self, epsilon: $t) -> bool {
+                    let s: [$t; 4] = self.to_array4();
+                    let o: [$t; 4] = other.to_array4();
+
+                    abs(s[0] - o[0]) <= epsilon
+                        && abs(s[1] - o[1]) <= epsilon
+                        && abs(s[2] - o[2]) <= epsilon
+                        && abs(s[3] - o[3]) <= epsilon
+                }
+            }
+            impl RelativeEq for $T {
+                fn default_max_relative() -> $t {
+                    <$t>::EPSILON
+                }
+                fn relative_eq(&self, other: &Self, epsilon: $t, max_relative: $t) -> bool {
+                    let s: [$t; 4] = self.to_array4();
+                    let o: [$t; 4] = other.to_array4();
+
+                    // Handle same infinities
+                    if s[0] == o[0] && s[1] == o[1] && s[2] == o[2] && s[3] == o[3] {
+                        return true;
+                    }
+
+                    // Handle remaining infinities
+                    if s[0].is_infinite()
+                        || o[0].is_infinite()
+                        || s[1].is_infinite()
+                        || o[1].is_infinite()
+                        || s[2].is_infinite()
+                        || o[2].is_infinite()
+                        || s[3].is_infinite()
+                        || o[3].is_infinite()
+                    {
+                        return false;
+                    }
+
+                    let abs_diff_0 = abs(s[0] - o[0]);
+                    let abs_diff_1 = abs(s[1] - o[1]);
+                    let abs_diff_2 = abs(s[2] - o[2]);
+                    let abs_diff_3 = abs(s[3] - o[3]);
+
+                    // For when the numbers are really close together
+                    if abs_diff_0 <= epsilon
+                        && abs_diff_1 <= epsilon
+                        && abs_diff_2 <= epsilon
+                        && abs_diff_3 <= epsilon
+                    {
+                        return true;
+                    }
+
+                    let abs_self_0 = abs(s[0]);
+                    let abs_self_1 = abs(s[1]);
+                    let abs_self_2 = abs(s[2]);
+                    let abs_self_3 = abs(s[3]);
+
+                    let abs_other_0 = abs(o[0]);
+                    let abs_other_1 = abs(o[1]);
+                    let abs_other_2 = abs(o[2]);
+                    let abs_other_3 = abs(o[3]);
+
+                    let largest_0 = if abs_other_0 > abs_self_0 {
+                        abs_other_0
+                    } else {
+                        abs_self_0
+                    };
+                    let largest_1 = if abs_other_1 > abs_self_1 {
+                        abs_other_1
+                    } else {
+                        abs_self_1
+                    };
+                    let largest_2 = if abs_other_2 > abs_self_2 {
+                        abs_other_2
+                    } else {
+                        abs_self_2
+                    };
+                let largest_3 = if abs_other_3 > abs_self_3 {
+                        abs_other_3
+                    } else {
+                        abs_self_3
+                    };
+
+                    // Use a relative difference comparison
+                    abs_diff_0 <= largest_0 * max_relative
+                        && abs_diff_1 <= largest_1 * max_relative
+                        && abs_diff_2 <= largest_2 * max_relative
+                        && abs_diff_3 <= largest_3 * max_relative
+                }
+            }
+
+            impl UlpsEq for $T {
+                fn default_max_ulps() -> u32 {
+                    4
+                }
+
+                fn ulps_eq(&self, other: &Self, epsilon: $t, max_ulps: u32) -> bool {
+                    let s: [$t; 4] = self.to_array4();
+                    let o: [$t; 4] = other.to_array4();
+
+                    // For when the numbers are really close together
+                    if self.abs_diff_eq(other, epsilon) {
+                        return true;
+                    }
+
+                    // Trivial negative sign check
+                    if signum(s[0]) != signum(o[0])
+                        && signum(s[1]) != signum(o[1])
+                        && signum(s[2]) != signum(o[2])
+                        && signum(s[3]) != signum(o[3])
+                    {
+                        return false;
+                    }
+
+                    // ULPS difference comparison
+                    let int_self_0: u32 = s[0].to_bits();
+                    let int_self_1: u32 = s[1].to_bits();
+                    let int_self_2: u32 = s[2].to_bits();
+                    let int_self_3: u32 = s[3].to_bits();
+                    let int_other_0: u32 = o[0].to_bits();
+                    let int_other_1: u32 = o[1].to_bits();
+                    let int_other_2: u32 = o[2].to_bits();
+                    let int_other_3: u32 = o[3].to_bits();
+
+                    int_self_0.abs_diff(int_other_0) <= max_ulps
+                        && int_self_1.abs_diff(int_other_1) <= max_ulps
+                        && int_self_2.abs_diff(int_other_2) <= max_ulps
+                        && int_self_3.abs_diff(int_other_3) <= max_ulps
+                }
+            }
+        };
+    }
+    impl_approx![all f32: Srgb32, Srgba32, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32];
 }
