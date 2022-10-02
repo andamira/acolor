@@ -280,6 +280,38 @@ impl Srgb8 {
 
 /// # Indirect conversions
 impl Srgb8 {
+    // LinearSrgb32
+
+    /// Indirect conversion from [`LinearSrgb32`].
+    #[inline]
+    pub fn from_linear_srgb32(c: LinearSrgb32) -> Srgb8 {
+        c.to_srgb32().to_srgb8()
+    }
+
+    /// Indirect conversion to [`LinearSrgb32`].
+    #[inline]
+    pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
+        self.to_srgb32().to_linear_srgb32()
+    }
+
+    // LinearSrgba32
+
+    /// Indirect conversion from [`LinearSrgba32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn from_linear_srgba32(c: LinearSrgba32) -> Srgb8 {
+        c.to_srgb32().to_srgb8()
+    }
+
+    /// Indirect conversion to [`LinearSrgba32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
+        self.to_srgb32().to_linear_srgba32(alpha)
+    }
+
     // Oklab32
 
     /// Indirect conversion from [`Oklab32`].
@@ -427,6 +459,38 @@ impl Srgba8 {
 
 /// # Indirect conversions
 impl Srgba8 {
+    // LinearSrgb32
+
+    /// Indirect conversion from [`Srgb32`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn from_linear_srgb32(c: LinearSrgb32, alpha: u8) -> Srgba8 {
+        c.to_srgb32().to_srgba8(alpha)
+    }
+
+    /// Indirect conversion to [`LinearSrgb32`].
+    ///
+    /// Loses the alpha channel.
+    #[inline]
+    pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
+        self.to_srgb32().to_linear_srgb32()
+    }
+
+    // LinearSrgba32
+
+    /// Indirect conversion from [`LinearSrgba32`].
+    #[inline]
+    pub fn from_linear_srgba32(c: LinearSrgba32) -> Srgba8 {
+        c.to_srgba32().to_srgba8()
+    }
+
+    /// Indirect conversion to [`LinearSrgba32`].
+    #[inline]
+    pub fn to_linear_srgba32(&self) -> LinearSrgba32 {
+        self.to_srgba32().to_linear_srgba32()
+    }
+
     // Oklab
 
     /// Indirect conversion from [`Oklab32`].
@@ -720,14 +784,14 @@ impl Srgba32 {
 
     /// Direct conversion from [`LinearSrgb32`].
     ///
-    /// Adds the alpha channel.
+    /// Adds the `alpha` channel.
     #[inline]
-    pub fn from_linear_srgb32(c: LinearSrgb32) -> Srgba32 {
+    pub fn from_linear_srgb32(c: LinearSrgb32, alpha: f32) -> Srgba32 {
         Srgba32 {
             r: nonlinearize32(c.r, GAMMA_32),
             g: nonlinearize32(c.g, GAMMA_32),
             b: nonlinearize32(c.b, GAMMA_32),
-            a: 1.,
+            a: alpha,
         }
     }
     /// Direct conversion to [`LinearSrgb32`].
@@ -879,7 +943,7 @@ impl LinearSrgb32 {
 
     /// Direct conversion to [`Srgba32`].
     ///
-    /// Adds the alpha channel.
+    /// Adds the `alpha` channel.
     #[inline]
     pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
         Srgba32 {
@@ -906,7 +970,7 @@ impl LinearSrgb32 {
 
     /// Direct conversion to [`LinearSrgba32`].
     ///
-    /// Adds the alpha channel.
+    /// Adds the `alpha` channel.
     #[inline]
     pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
         LinearSrgba32 {
@@ -934,6 +998,48 @@ impl LinearSrgb32 {
 
 /// # Indirect conversions
 impl LinearSrgb32 {
+    // Srgb8
+
+    /// Indirect conversion from [`Srgb8`].
+    #[inline]
+    pub fn from_srgb8(c: Srgb8) -> LinearSrgb32 {
+        let c = c.to_srgb32();
+        LinearSrgb32 {
+            r: linearize32(c.r, GAMMA_32),
+            g: linearize32(c.g, GAMMA_32),
+            b: linearize32(c.b, GAMMA_32),
+        }
+    }
+
+    /// Indirect conversion to [`Srgb32`].
+    #[inline]
+    pub fn to_srgb8(&self) -> Srgb8 {
+        self.to_srgb32().to_srgb8()
+    }
+
+    // Srgba8
+
+    /// Indirect conversion from [`Srgba8`].
+    ///
+    /// Loses the alpha channel
+    #[inline]
+    pub fn from_srgba8(c: Srgba8) -> LinearSrgb32 {
+        let c = c.to_srgba32();
+        LinearSrgb32 {
+            r: linearize32(c.r, GAMMA_32),
+            g: linearize32(c.g, GAMMA_32),
+            b: linearize32(c.b, GAMMA_32),
+        }
+    }
+
+    /// Indirect conversion to [`Srgba8`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn to_srgba8(&self, alpha: u8) -> Srgba8 {
+        self.to_srgb32().to_srgba8(alpha)
+    }
+
     // Oklhc32
 
     /// Direct conversion from [`Oklch32`].
@@ -1028,8 +1134,6 @@ impl LinearSrgba32 {
     }
 
     /// Direct conversion to [`Srgba32`].
-    ///
-    /// Adds the alpha channel.
     #[inline]
     pub fn to_srgba32(&self) -> Srgba32 {
         Srgba32 {
@@ -1088,6 +1192,61 @@ impl LinearSrgba32 {
 
 /// # Indirect conversions
 impl LinearSrgba32 {
+    // Srgb8
+
+    /// Indirect conversion from [`Srgb8`].
+    ///
+    /// Adds the `alpha` channel.
+    #[inline]
+    pub fn from_srgb8(c: Srgb8, alpha: f32) -> LinearSrgba32 {
+        let c = c.to_srgb32();
+        LinearSrgba32 {
+            r: linearize32(c.r, GAMMA_32),
+            g: linearize32(c.g, GAMMA_32),
+            b: linearize32(c.b, GAMMA_32),
+            a: alpha,
+        }
+    }
+
+    /// Indirect conversion to [`Srgb32`].
+    ///
+    /// Loses the alpha channel
+    #[inline]
+    pub fn to_srgb8(&self) -> Srgb8 {
+        Srgb32 {
+            r: nonlinearize32(self.r, GAMMA_32),
+            g: nonlinearize32(self.g, GAMMA_32),
+            b: nonlinearize32(self.b, GAMMA_32),
+        }
+        .to_srgb8()
+    }
+
+    // Srgba8
+
+    /// Indirect conversion from [`Srgba8`].
+    #[inline]
+    pub fn from_srgba8(c: Srgba8) -> LinearSrgba32 {
+        let c = c.to_srgba32();
+        LinearSrgba32 {
+            r: linearize32(c.r, GAMMA_32),
+            g: linearize32(c.g, GAMMA_32),
+            b: linearize32(c.b, GAMMA_32),
+            a: c.a,
+        }
+    }
+
+    /// Indirect conversion to [`Srgba8`].
+    #[inline]
+    pub fn to_srgba8(&self) -> Srgba8 {
+        Srgba32 {
+            r: nonlinearize32(self.r, GAMMA_32),
+            g: nonlinearize32(self.g, GAMMA_32),
+            b: nonlinearize32(self.b, GAMMA_32),
+            a: self.a,
+        }
+        .to_srgba8()
+    }
+
     // Oklhc32
 
     /// Direct conversion from [`Oklch32`].

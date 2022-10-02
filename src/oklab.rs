@@ -13,7 +13,6 @@
 //
 
 use super::{clamp, max, min, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
-use core::f32::consts::PI as PI_32;
 
 /* definitions */
 
@@ -150,54 +149,40 @@ impl Oklch32 {
 // Converts from [`Oklab32`] to [`Oklch32`] color spaces.
 #[inline]
 fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
-    // TODO CHECK both versions
+    Oklch32 {
+        l: c.l,
+        c: c.a.hypot(c.b),
+        h: c.b.atan2(c.a),
+    }
+
+    // // alternative
+    // use core::f32::consts::PI as PI_32;
+    // let hue = c.b.atan2(c.a) * 180. / PI_32;
+    // #[rustfmt::skip]
+    // let h = if hue >= 0. { hue } else { hue + 360. };
     //
     // Oklch32 {
     //     l: c.l,
     //     c: c.a.hypot(c.b),
-    //     h: c.b.atan2(c.a),
-    // }
-
-    let hue = c.b.atan2(c.a) * 180. / PI_32;
-    #[rustfmt::skip]
-    let h = if hue >= 0. { hue } else { hue + 360. };
-
-    Oklch32 {
-        l: c.l,
-        c: c.a.hypot(c.b),
-        h,
-    }
-    // function OKLab_to_OKLCH(OKLab) {
-    //     var hue = Math.atan2(OKLab[2], OKLab[1]) * 180 / Math.PI;
-    //     return [
-    //         OKLab[0], // L is still L
-    //         Math.sqrt(OKLab[1] ** 2 + OKLab[2] ** 2), // Chroma
-    //         hue >= 0 ? hue : hue + 360 // Hue, in degrees [0 to 360)
-    //     ];
+    //     h,
     // }
 }
 
 // Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
 fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
-    // TODO: CHECK both versions
-    // Oklab32 {
-    //     l: c.l,
-    //     a: c.c * c.h.cos(),
-    //     b: c.c * c.h.sin(),
-    // }
-
     Oklab32 {
         l: c.l,
-        a: c.c * (c.h * PI_32 / 180.).cos(),
-        b: c.c * (c.h * PI_32 / 180.).sin(),
+        a: c.c * c.h.cos(),
+        b: c.c * c.h.sin(),
     }
-    // function OKLCH_to_OKLab(OKLCH) {
-    //     return [
-    //         OKLCH[0], // L is still L
-    //         OKLCH[1] * Math.cos(OKLCH[2] * Math.PI / 180), // a
-    //         OKLCH[1] * Math.sin(OKLCH[2] * Math.PI / 180)  // b
-    //     ];
+
+    // // alternative
+    // use core::f32::consts::PI as PI_32;
+    // let y = Oklab32 {
+    //     l: c.l,
+    //     a: c.c * (c.h * PI_32 / 180.).cos(),
+    //     b: c.c * (c.h * PI_32 / 180.).sin(),
     // }
 }
 
