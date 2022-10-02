@@ -34,6 +34,9 @@ pub use oklab::{Oklab32, Oklch32};
 
 mod external;
 
+#[cfg(test)]
+mod tests;
+
 // mod aces;
 // pub use aces::*;
 
@@ -54,25 +57,4 @@ pub(crate) fn max<T: PartialOrd>(a: T, b: T) -> T { if a > b { a } else { b } }
 #[rustfmt::skip]
 pub(crate) fn clamp<T: PartialOrd>(value: T, vmin: T, vmax: T) -> T {
     min(max(value, vmin), vmax)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{clamp, max, min};
-
-    #[test]
-    fn test_clamp() {
-        assert_eq![2, min(2, 5)];
-        assert_eq![2, min(5, 2)];
-        assert_eq![2., min(2., 5.)];
-
-        assert_eq![5, max(2, 5)];
-        assert_eq![5, max(5, 2)];
-        assert_eq![5., max(2., 5.)];
-
-        assert_eq![3, clamp(3, 2, 5)];
-        assert_eq![3., clamp(3., 2., 5.)];
-        assert_eq![2, clamp(1, 2, 5)];
-        assert_eq![5, clamp(7, 2, 5)];
-    }
 }

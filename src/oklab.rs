@@ -395,7 +395,7 @@ impl Oklab32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
-        self.to_linear_srgba32(alpha).to_srgba32()
+        self.to_linear_srgb32().to_srgba32(alpha)
     }
 }
 
@@ -514,7 +514,7 @@ impl Oklch32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
-        self.to_oklab32().to_srgba32(alpha)
+        self.to_oklab32().to_linear_srgb32().to_srgba32(alpha)
     }
 
     // LinearSrgb32

@@ -964,11 +964,7 @@ impl LinearSrgb32 {
     /// Loses the alpha channel.
     #[inline]
     pub fn from_linear_srgba32(c: LinearSrgba32) -> LinearSrgb32 {
-        LinearSrgb32 {
-            r: linearize32(c.r, GAMMA_32),
-            g: linearize32(c.g, GAMMA_32),
-            b: linearize32(c.b, GAMMA_32),
-        }
+        LinearSrgb32 { r: c.r, g: c.g, b: c.b }
     }
 
     /// Direct conversion to [`LinearSrgba32`].
@@ -976,12 +972,7 @@ impl LinearSrgb32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
-        LinearSrgba32 {
-            r: linearize32(self.r, GAMMA_32),
-            g: linearize32(self.g, GAMMA_32),
-            b: linearize32(self.b, GAMMA_32),
-            a: alpha,
-        }
+        LinearSrgba32 { r: self.r, g: self.g, b: self.b, a: alpha }
     }
 
     // Oklab32
@@ -1154,12 +1145,7 @@ impl LinearSrgba32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn from_linear_srgb32(c: LinearSrgb32, alpha: f32) -> LinearSrgba32 {
-        LinearSrgba32 {
-            r: linearize32(c.r, GAMMA_32),
-            g: linearize32(c.g, GAMMA_32),
-            b: linearize32(c.b, GAMMA_32),
-            a: alpha,
-        }
+        LinearSrgba32 { r: c.r, g: c.g, b: c.b, a: alpha }
     }
 
     /// Direct conversion to [`LinearSrgb32`].
@@ -1167,11 +1153,7 @@ impl LinearSrgba32 {
     /// Loses the alpha channel.
     #[inline]
     pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
-        LinearSrgb32 {
-            r: linearize32(self.r, GAMMA_32),
-            g: linearize32(self.g, GAMMA_32),
-            b: linearize32(self.b, GAMMA_32),
-        }
+        LinearSrgb32 { r: self.r, g: self.g, b: self.b }
     }
 
     // Oklab32
