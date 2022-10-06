@@ -21,7 +21,7 @@ keywords = []
 publish = false
 
 [dependencies]
-iunorm = "0.1.2"
+iunorm = "0.2.0"
 
 libm = { version = "0.2.5", optional = true }
 approx = { version = "0.5.1", optional = true, default-features = false }
@@ -34,8 +34,9 @@ tiny-skia = { version = "0.8.1", optional = true, default-features = false }
 [features]
 default = ["std", "approx"]
 
-# not using "std" feature depends on "libm"
 std = ["tiny-skia?/std", "approx?/std"]
+# --no-default-features --features=no-std
+no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
 
 all = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
 

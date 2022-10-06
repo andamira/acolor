@@ -104,8 +104,8 @@ fn linear_srgb32() {
     let c = LinearSrgb32::new(0.1, 0.2, 0.3);
 
     // back and forth
-    assert_relative_eq![c.to_srgb8().to_linear_srgb32(), c, max_relative = 0.008];
-    assert_relative_eq![c.to_srgba8(255).to_linear_srgb32(), c, max_relative = 0.008];
+    assert_relative_eq![c.to_srgb8().to_linear_srgb32(), c, max_relative = 8e-3];
+    assert_relative_eq![c.to_srgba8(255).to_linear_srgb32(), c, max_relative = 8e-3];
     assert_relative_eq![c.to_srgb32().to_linear_srgb32(), c];
     assert_eq![c.to_linear_srgba32(1.).to_linear_srgb32(), c];
     assert_relative_eq![c.to_oklab32().to_linear_srgb32(), c];
@@ -117,8 +117,8 @@ fn linear_srgba32() {
     let c = LinearSrgba32::new(0.1, 0.2, 0.3, 0.4);
 
     // back and forth
-    assert_relative_eq![c.to_srgb8().to_linear_srgba32(0.4), c, max_relative = 0.008];
-    assert_relative_eq![c.to_srgba8().to_linear_srgba32(), c, max_relative = 0.008];
+    assert_relative_eq![c.to_srgb8().to_linear_srgba32(0.4), c, max_relative = 8e-3];
+    assert_relative_eq![c.to_srgba8().to_linear_srgba32(), c, max_relative = 8e-3];
     assert_relative_eq![c.to_srgb32().to_linear_srgba32(0.4), c];
     assert_eq![c.to_linear_srgb32().to_linear_srgba32(0.4), c];
     assert_relative_eq![c.to_oklab32().to_linear_srgba32(0.4), c];
@@ -130,12 +130,12 @@ fn oklab32() {
     let c = Oklab32::new(0.7, -0.1, 0.1);
 
     // back and forth
-    assert_relative_eq![c.to_srgb8().to_oklab32(), c, max_relative = 0.003];
-    assert_relative_eq![c.to_srgba8(255).to_oklab32(), c, max_relative = 0.003];
-    assert_relative_eq![c.to_srgb32().to_oklab32(), c, max_relative = 0.000003];
-    assert_relative_eq![c.to_srgba32(1.).to_oklab32(), c, max_relative = 0.000003];
-    assert_relative_eq![c.to_linear_srgb32().to_oklab32(), c, max_relative = 0.000003];
-    assert_relative_eq![c.to_linear_srgba32(1.).to_oklab32(), c, max_relative = 0.000003];
+    assert_relative_eq![c.to_srgb8().to_oklab32(), c, max_relative = 3e-3];
+    assert_relative_eq![c.to_srgba8(255).to_oklab32(), c, max_relative = 3e-3];
+    assert_relative_eq![c.to_srgb32().to_oklab32(), c, max_relative = 3e-6];
+    assert_relative_eq![c.to_srgba32(1.).to_oklab32(), c, max_relative = 3e-6];
+    assert_relative_eq![c.to_linear_srgb32().to_oklab32(), c, max_relative = 3e-6];
+    assert_relative_eq![c.to_linear_srgba32(1.).to_oklab32(), c, max_relative = 3e-6];
     assert_relative_eq![c.to_oklch32().to_oklab32(), c];
 }
 
@@ -144,11 +144,11 @@ fn oklch32() {
     let c = Oklch32::new(0.7, 0.15, 2.5);
 
     // back and forth
-    assert_relative_eq![c.to_srgb8().to_oklch32(), c, max_relative = 0.006];
-    assert_relative_eq![c.to_srgba8(255).to_oklch32(), c, max_relative = 0.006];
-    assert_relative_eq![c.to_srgb32().to_oklch32(), c, max_relative = 0.0000003];
-    assert_relative_eq![c.to_srgba32(1.).to_oklch32(), c, max_relative = 0.0000003];
-    assert_relative_eq![c.to_linear_srgb32().to_oklch32(), c, max_relative = 0.0000003];
-    assert_relative_eq![c.to_linear_srgba32(1.).to_oklch32(), c, max_relative = 0.0000003];
+    assert_relative_eq![c.to_srgb8().to_oklch32(), c, max_relative = 0.1];
+    assert_relative_eq![c.to_srgba8(255).to_oklch32(), c, max_relative = 0.1];
+    assert_relative_eq![c.to_srgb32().to_oklch32(), c, max_relative = 2e-5];
+    assert_relative_eq![c.to_srgba32(1.).to_oklch32(), c, max_relative = 2e-5];
+    assert_relative_eq![c.to_linear_srgb32().to_oklch32(), c, max_relative = 3e-5];
+    assert_relative_eq![c.to_linear_srgba32(1.).to_oklch32(), c, max_relative = 3e-5];
     assert_relative_eq![c.to_oklab32().to_oklch32(), c];
 }

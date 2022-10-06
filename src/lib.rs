@@ -20,6 +20,11 @@
 /// The default gamma value as an [`f32`].
 pub const GAMMA_32: f32 = 2.4;
 
+/* color trait */
+
+mod color;
+pub use color::Color;
+
 /* color types */
 
 pub mod srgb;
@@ -36,9 +41,6 @@ mod external;
 
 #[cfg(test)]
 mod tests;
-
-// mod aces;
-// pub use aces::*;
 
 /* utils */
 

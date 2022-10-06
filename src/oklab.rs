@@ -161,55 +161,56 @@ impl Oklch32 {
 #[inline]
 fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
     #[cfg(feature = "std")]
-    return Oklch32 {
-        l: c.l,
-        c: c.a.hypot(c.b),
-        h: c.b.atan2(c.a),
-    };
+    {
+        use core::f32::consts::PI as PI_32;
+        let hue = c.b.atan2(c.a) * 180. / PI_32;
+        #[rustfmt::skip]
+        let h = if hue >= 0. { hue } else { hue + 360. };
+
+        Oklch32 {
+            l: c.l,
+            c: c.a.hypot(c.b),
+            h,
+        }
+    }
 
     #[cfg(not(feature = "std"))]
-    return Oklch32 {
-        l: c.l,
-        c: hypotf(c.a, c.b),
-        h: atan2f(c.b, c.a),
-    };
+    {
+        use core::f32::consts::PI as PI_32;
+        let hue = atan2f(c.b, c.a) * 180. / PI_32;
+        #[rustfmt::skip]
+        let h = if hue >= 0. { hue } else { hue + 360. };
 
-    // // alternative
-    // use core::f32::consts::PI as PI_32;
-    // let hue = c.b.atan2(c.a) * 180. / PI_32;
-    // #[rustfmt::skip]
-    // let h = if hue >= 0. { hue } else { hue + 360. };
-    //
-    // Oklch32 {
-    //     l: c.l,
-    //     c: c.a.hypot(c.b),
-    //     h,
-    // }
+        Oklch32 {
+            l: c.l,
+            c: hypotf(c.a, c.b),
+            h,
+        }
+    }
 }
 
 // Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
 fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
     #[cfg(feature = "std")]
-    return Oklab32 {
-        l: c.l,
-        a: c.c * c.h.cos(),
-        b: c.c * c.h.sin(),
-    };
-    #[cfg(not(feature = "std"))]
-    return Oklab32 {
-        l: c.l,
-        a: c.c * cosf(c.h),
-        b: c.c * sinf(c.h),
-    };
+    {
+        use core::f32::consts::PI as PI_32;
+        Oklab32 {
+            l: c.l,
+            a: c.c * (c.h * PI_32 / 180.).cos(),
+            b: c.c * (c.h * PI_32 / 180.).sin(),
+        }
+    }
 
-    // // alternative
-    // use core::f32::consts::PI as PI_32;
-    // let y = Oklab32 {
-    //     l: c.l,
-    //     a: c.c * (c.h * PI_32 / 180.).cos(),
-    //     b: c.c * (c.h * PI_32 / 180.).sin(),
-    // }
+    #[cfg(not(feature = "std"))]
+    {
+        use core::f32::consts::PI as PI_32;
+        Oklab32 {
+            l: c.l,
+            a: c.c * cosf(c.h * PI_32 / 180.),
+            b: c.c * sinf(c.h * PI_32 / 180.),
+        }
+    }
 }
 
 /// Converts from [`LinearSrgb32`] to [`Oklab32`] color spaces.

@@ -300,8 +300,8 @@ mod impl_approx {
                     <$t>::EPSILON
                 }
                 fn abs_diff_eq(&self, other: &Self, epsilon: $t) -> bool {
-                    let s: [$t; 4] = self.to_array4();
-                    let o: [$t; 4] = other.to_array4();
+                    let s: [$t; 4] = self.color_to_array4();
+                    let o: [$t; 4] = other.color_to_array4();
 
                     abs(s[0] - o[0]) <= epsilon
                         && abs(s[1] - o[1]) <= epsilon
@@ -314,8 +314,8 @@ mod impl_approx {
                     <$t>::EPSILON
                 }
                 fn relative_eq(&self, other: &Self, epsilon: $t, max_relative: $t) -> bool {
-                    let s: [$t; 4] = self.to_array4();
-                    let o: [$t; 4] = other.to_array4();
+                    let s: [$t; 4] = self.color_to_array4();
+                    let o: [$t; 4] = other.color_to_array4();
 
                     // Handle same infinities
                     if s[0] == o[0] && s[1] == o[1] && s[2] == o[2] && s[3] == o[3] {
@@ -394,8 +394,8 @@ mod impl_approx {
                 }
 
                 fn ulps_eq(&self, other: &Self, epsilon: $t, max_ulps: u32) -> bool {
-                    let s: [$t; 4] = self.to_array4();
-                    let o: [$t; 4] = other.to_array4();
+                    let s: [$t; 4] = self.color_to_array4();
+                    let o: [$t; 4] = other.color_to_array4();
 
                     // For when the numbers are really close together
                     if self.abs_diff_eq(other, epsilon) {
