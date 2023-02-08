@@ -53,7 +53,7 @@ pub struct Srgb8 {
 /// # Constructors
 impl Srgb8 {
     /// New Srgb8.
-    pub fn new(r: u8, g: u8, b: u8) -> Srgb8 {
+    pub const fn new(r: u8, g: u8, b: u8) -> Srgb8 {
         Self { r, g, b }
     }
 }
@@ -75,7 +75,7 @@ pub struct Srgba8 {
 /// # Constructors
 impl Srgba8 {
     /// New Srgba8.
-    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Srgba8 {
+    pub const fn new(r: u8, g: u8, b: u8, a: u8) -> Srgba8 {
         Self { r, g, b, a }
     }
 }
@@ -95,7 +95,7 @@ pub struct Srgb32 {
 /// # Constructors
 impl Srgb32 {
     /// New Srgb32.
-    pub fn new(r: f32, g: f32, b: f32) -> Srgb32 {
+    pub const fn new(r: f32, g: f32, b: f32) -> Srgb32 {
         Self { r, g, b }
     }
 }
@@ -117,7 +117,7 @@ pub struct Srgba32 {
 /// # Constructors
 impl Srgba32 {
     /// New Srgba32.
-    pub fn new(r: f32, g: f32, b: f32, a: f32) -> Srgba32 {
+    pub const fn new(r: f32, g: f32, b: f32, a: f32) -> Srgba32 {
         Self { r, g, b, a }
     }
 }
@@ -139,7 +139,7 @@ pub struct LinearSrgb32 {
 /// # Constructors
 impl LinearSrgb32 {
     /// New LinearSrgb32.
-    pub fn new(r: f32, g: f32, b: f32) -> LinearSrgb32 {
+    pub const fn new(r: f32, g: f32, b: f32) -> LinearSrgb32 {
         Self { r, g, b }
     }
 }
@@ -163,7 +163,7 @@ pub struct LinearSrgba32 {
 /// # Constructors
 impl LinearSrgba32 {
     /// New LinearSrgba32.
-    pub fn new(r: f32, g: f32, b: f32, a: f32) -> LinearSrgba32 {
+    pub const fn new(r: f32, g: f32, b: f32, a: f32) -> LinearSrgba32 {
         Self { r, g, b, a }
     }
 }
@@ -179,7 +179,7 @@ impl Srgb8 {
 
     /// Direct conversion from an array.
     #[inline]
-    pub fn from_array(c: [u8; 3]) -> Srgb8 {
+    pub const fn from_array(c: [u8; 3]) -> Srgb8 {
         Srgb8 {
             r: c[0],
             g: c[1],
@@ -188,13 +188,13 @@ impl Srgb8 {
     }
     /// Direct conversion to an array.
     #[inline]
-    pub fn to_array(c: Srgb8) -> [u8; 3] {
+    pub const fn to_array(c: Srgb8) -> [u8; 3] {
         [c.r, c.g, c.b]
     }
 
     /// Direct conversion from a tuple.
     #[inline]
-    pub fn from_tuple(c: (u8, u8, u8)) -> Srgb8 {
+    pub const fn from_tuple(c: (u8, u8, u8)) -> Srgb8 {
         Srgb8 {
             r: c.0,
             g: c.1,
@@ -203,7 +203,7 @@ impl Srgb8 {
     }
     /// Direct conversion to a tuple.
     #[inline]
-    pub fn to_tuple(c: Srgb8) -> (u8, u8, u8) {
+    pub const fn to_tuple(c: Srgb8) -> (u8, u8, u8) {
         (c.r, c.g, c.b)
     }
 
@@ -213,7 +213,7 @@ impl Srgb8 {
     ///
     /// Loses the alpha channel.
     #[inline]
-    pub fn from_srgba8(c: Srgba8) -> Srgb8 {
+    pub const fn from_srgba8(c: Srgba8) -> Srgb8 {
         Srgb8 {
             r: c.r,
             g: c.g,
@@ -224,7 +224,7 @@ impl Srgb8 {
     ///
     /// Expects the alpha channel.
     #[inline]
-    pub fn to_srgba8(&self, alpha: u8) -> Srgba8 {
+    pub const fn to_srgba8(&self, alpha: u8) -> Srgba8 {
         Srgba8 {
             r: self.r,
             g: self.g,
@@ -606,14 +606,14 @@ impl Srgb32 {
     ///
     /// Loses the alpha channel.
     #[inline]
-    pub fn from_srgba32(c: Srgba32) -> Srgb32 {
+    pub const fn from_srgba32(c: Srgba32) -> Srgb32 {
         Srgb32::new(c.r, c.g, c.b)
     }
     /// Direct conversion to [`Srgba32`].
     ///
     /// Adds the `alpha` channel.
     #[inline]
-    pub fn to_srgba32(&self, alpha: f32) -> Srgba32 {
+    pub const fn to_srgba32(&self, alpha: f32) -> Srgba32 {
         Srgba32::new(self.r, self.g, self.b, alpha)
     }
 
@@ -706,7 +706,7 @@ impl Srgba32 {
 
     /// Direct conversion from an array.
     #[inline]
-    pub fn from_array(c: [f32; 4]) -> Srgba32 {
+    pub const fn from_array(c: [f32; 4]) -> Srgba32 {
         Srgba32 {
             r: c[0],
             g: c[1],
@@ -716,13 +716,13 @@ impl Srgba32 {
     }
     /// Direct conversion to an array.
     #[inline]
-    pub fn to_array(c: Srgba32) -> [f32; 4] {
+    pub const fn to_array(c: Srgba32) -> [f32; 4] {
         [c.r, c.g, c.b, c.a]
     }
 
     /// Direct conversion from a tuple.
     #[inline]
-    pub fn from_tuple(c: (f32, f32, f32, f32)) -> Srgba32 {
+    pub const fn from_tuple(c: (f32, f32, f32, f32)) -> Srgba32 {
         Srgba32 {
             r: c.0,
             g: c.1,
@@ -732,7 +732,7 @@ impl Srgba32 {
     }
     /// Direct conversion to a tuple.
     #[inline]
-    pub fn to_tuple(c: Srgba32) -> (f32, f32, f32, f32) {
+    pub const fn to_tuple(c: Srgba32) -> (f32, f32, f32, f32) {
         (c.r, c.g, c.b, c.a)
     }
 
@@ -779,7 +779,7 @@ impl Srgba32 {
     ///
     /// Loses the alpha channel.
     #[inline]
-    pub fn to_srgb32(&self) -> Srgb32 {
+    pub const fn to_srgb32(&self) -> Srgb32 {
         Srgb32::from_srgba32(*self)
     }
 
@@ -880,7 +880,7 @@ impl LinearSrgb32 {
 
     /// Direct conversion from an array.
     #[inline]
-    pub fn from_array(c: [f32; 3]) -> LinearSrgb32 {
+    pub const fn from_array(c: [f32; 3]) -> LinearSrgb32 {
         LinearSrgb32 {
             r: c[0],
             g: c[1],
@@ -889,13 +889,13 @@ impl LinearSrgb32 {
     }
     /// Direct conversion to an array.
     #[inline]
-    pub fn to_array(c: LinearSrgb32) -> [f32; 3] {
+    pub const fn to_array(c: LinearSrgb32) -> [f32; 3] {
         [c.r, c.g, c.b]
     }
 
     /// Direct conversion from a tuple.
     #[inline]
-    pub fn from_tuple(c: (f32, f32, f32)) -> LinearSrgb32 {
+    pub const fn from_tuple(c: (f32, f32, f32)) -> LinearSrgb32 {
         LinearSrgb32 {
             r: c.0,
             g: c.1,
@@ -904,7 +904,7 @@ impl LinearSrgb32 {
     }
     /// Direct conversion to a tuple.
     #[inline]
-    pub fn to_tuple(c: LinearSrgb32) -> (f32, f32, f32) {
+    pub const fn to_tuple(c: LinearSrgb32) -> (f32, f32, f32) {
         (c.r, c.g, c.b)
     }
 
@@ -964,7 +964,11 @@ impl LinearSrgb32 {
     /// Loses the alpha channel.
     #[inline]
     pub fn from_linear_srgba32(c: LinearSrgba32) -> LinearSrgb32 {
-        LinearSrgb32 { r: c.r, g: c.g, b: c.b }
+        LinearSrgb32 {
+            r: c.r,
+            g: c.g,
+            b: c.b,
+        }
     }
 
     /// Direct conversion to [`LinearSrgba32`].
@@ -972,7 +976,12 @@ impl LinearSrgb32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn to_linear_srgba32(&self, alpha: f32) -> LinearSrgba32 {
-        LinearSrgba32 { r: self.r, g: self.g, b: self.b, a: alpha }
+        LinearSrgba32 {
+            r: self.r,
+            g: self.g,
+            b: self.b,
+            a: alpha,
+        }
     }
 
     // Oklab32
@@ -1145,7 +1154,12 @@ impl LinearSrgba32 {
     /// Adds the `alpha` channel.
     #[inline]
     pub fn from_linear_srgb32(c: LinearSrgb32, alpha: f32) -> LinearSrgba32 {
-        LinearSrgba32 { r: c.r, g: c.g, b: c.b, a: alpha }
+        LinearSrgba32 {
+            r: c.r,
+            g: c.g,
+            b: c.b,
+            a: alpha,
+        }
     }
 
     /// Direct conversion to [`LinearSrgb32`].
@@ -1153,7 +1167,11 @@ impl LinearSrgba32 {
     /// Loses the alpha channel.
     #[inline]
     pub fn to_linear_srgb32(&self) -> LinearSrgb32 {
-        LinearSrgb32 { r: self.r, g: self.g, b: self.b }
+        LinearSrgb32 {
+            r: self.r,
+            g: self.g,
+            b: self.b,
+        }
     }
 
     // Oklab32

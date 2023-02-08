@@ -12,7 +12,8 @@
 //! - <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab>
 //
 
-use super::{clamp, max, min, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
+use super::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
+use devela::{pclamp, pmax};
 
 #[cfg(not(feature = "std"))]
 use libm::{atan2f, cbrtf, cosf, hypotf, powf, sinf};
@@ -46,9 +47,9 @@ impl Oklab32 {
     /// - **a**, cyan..red axis, range: `-0.5..0.5`.
     /// - **b**, blue..yellow axis, range: `-0.5..0.5`.
     pub fn new(lightness: f32, a: f32, b: f32) -> Oklab32 {
-        let l = max(0.0, lightness);
-        let a = clamp(a, -0.5, 0.5);
-        let b = clamp(b, -0.5, 0.5);
+        let l = pmax(0.0, lightness);
+        let a = pclamp(a, -0.5, 0.5);
+        let b = pclamp(b, -0.5, 0.5);
 
         Self { l, a, b }
     }
@@ -124,9 +125,9 @@ pub struct Oklch32 {
 impl Oklch32 {
     /// New Oklch color with clamped values.
     pub fn new(luminance: f32, chroma: f32, hue: f32) -> Oklch32 {
-        let l = min(max(0.0, luminance), 100.0);
-        let c = min(max(0.0, chroma), 0.5);
-        let h = min(max(0.0, hue), 360.);
+        let l = pclamp(luminance, 0.0, 100.0);
+        let c = pclamp(chroma, 0.0, 0.5);
+        let h = pclamp(hue, 0.0, 360.);
 
         Self { l, c, h }
     }

@@ -5,22 +5,23 @@
 
 use crate::*;
 use approx::assert_relative_eq;
+use devela::{pclamp, pmax, pmin};
 use iunorm::Unorm8;
 
 #[test]
 fn min_max_clamp() {
-    assert_eq![2, min(2, 5)];
-    assert_eq![2, min(5, 2)];
-    assert_eq![2., min(2., 5.)];
+    assert_eq![2, pmin(2, 5)];
+    assert_eq![2, pmin(5, 2)];
+    assert_eq![2., pmin(2., 5.)];
 
-    assert_eq![5, max(2, 5)];
-    assert_eq![5, max(5, 2)];
-    assert_eq![5., max(2., 5.)];
+    assert_eq![5, pmax(2, 5)];
+    assert_eq![5, pmax(5, 2)];
+    assert_eq![5., pmax(2., 5.)];
 
-    assert_eq![3, clamp(3, 2, 5)];
-    assert_eq![3., clamp(3., 2., 5.)];
-    assert_eq![2, clamp(1, 2, 5)];
-    assert_eq![5, clamp(7, 2, 5)];
+    assert_eq![3, pclamp(3, 2, 5)];
+    assert_eq![3., pclamp(3., 2., 5.)];
+    assert_eq![2, pclamp(1, 2, 5)];
+    assert_eq![5, pclamp(7, 2, 5)];
 }
 
 #[test]

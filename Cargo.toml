@@ -1,6 +1,6 @@
 [package]
 name = "acolor"
-description = "simple color types, operations and conversions"
+description = "Simple color types, operations and conversions."
 version = "0.0.1"
 edition = "2021"
 resolver = "2"
@@ -18,34 +18,36 @@ include = [
 ]
 categories = []
 keywords = []
-publish = false
+publish = true
 
 [dependencies]
-iunorm = "0.2.0"
+devela = { version = "0.1.2", default-features = false }
+iunorm = "0.2.1"
 
-libm = { version = "0.2.5", optional = true }
 approx = { version = "0.5.1", optional = true, default-features = false }
+libm = { version = "0.2.5", optional = true }
 
-macroquad = { version = "0.3.24", optional = true, default-features = false }
+macroquad = { version = "0.3.25", optional = true, default-features = false }
 notcurses = { version = "3.1.0", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
-tiny-skia = { version = "0.8.1", optional = true, default-features = false }
+tiny-skia = { version = "0.8.3", optional = true, default-features = false }
 
 [features]
-default = ["std", "approx"]
+default = ["std", "safe", "approx"]
+nightly = []
 
-std = ["tiny-skia?/std", "approx?/std"]
+safe = ["devela/safe"]
+
+std = ["devela/std", "tiny-skia?/std", "approx?/std"]
 # --no-default-features --features=no-std
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
 
-all = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
+complete = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
 
 [dev-dependencies]
 
 [package.metadata.docs.rs]
-features = ["all"]
+features = ["complete", "nightly"]
 
 [badges]
-# actively-developed, passively-maintained, looking-for-maintainer, as-is,
-# experimental, deprecated, none
 maintenance = { status = "experimental" }

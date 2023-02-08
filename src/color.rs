@@ -41,7 +41,6 @@ pub trait Color {
     /// If the specific color type has no alpha the maximum value is returned.
     fn color_to_array4(&self) -> [Self::Inner; 4];
 
-
     /// Conversion to `Srgb8`.
     fn color_to_srgb8(&self) -> Srgb8;
     /// Conversion to `Srgba8`.

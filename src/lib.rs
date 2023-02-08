@@ -1,5 +1,15 @@
-// ::
+// acolor
+//
 //! A handy selection of color representations, conversions and operations.
+//
+// # Color components
+//
+// - *Chroma* is the perceived strength of a color, in relation to white.
+//
+// # Color primaries
+//
+// - red, green, blue
+// - cyan, magenta, yellow
 //
 
 #![warn(clippy::all)]
@@ -11,14 +21,9 @@
     clippy::excessive_precision,
     clippy::pattern_type_mismatch
 )]
-#![forbid(unsafe_code)]
-//
 #![cfg_attr(not(feature = "std"), no_std)]
-
-/* constants */
-
-/// The default gamma value as an [`f32`].
-pub const GAMMA_32: f32 = 2.4;
+#![cfg_attr(feature = "safe", forbid(unsafe_code))]
+#![cfg_attr(feature = "nightly", feature(doc_cfg))]
 
 /* color trait */
 
@@ -42,21 +47,7 @@ mod external;
 #[cfg(test)]
 mod tests;
 
-/* utils */
+/* constants */
 
-/// Min function using `PartialOrd`.
-#[inline(always)]
-#[rustfmt::skip]
-pub(crate) fn min<T: PartialOrd>(a: T, b: T) -> T { if a < b { a } else { b } }
-
-/// Max function using `PartialOrd`.
-#[inline(always)]
-#[rustfmt::skip]
-pub(crate) fn max<T: PartialOrd>(a: T, b: T) -> T { if a > b { a } else { b } }
-
-/// Minmax function using `PartialOrd`.
-#[inline(always)]
-#[rustfmt::skip]
-pub(crate) fn clamp<T: PartialOrd>(value: T, vmin: T, vmax: T) -> T {
-    min(max(value, vmin), vmax)
-}
+/// The default gamma value as an [`f32`].
+pub const GAMMA_32: f32 = 2.4;

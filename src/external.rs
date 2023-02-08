@@ -11,6 +11,7 @@
 //
 
 #[cfg(feature = "macroquad")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "macroquad")))]
 mod macroquad {
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
     pub use macroquad::color::Color;
@@ -88,6 +89,7 @@ mod macroquad {
 }
 
 #[cfg(feature = "sdl2")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
 mod sdl2 {
     use crate::{Srgb8, Srgba8};
     use sdl2::gfx::primitives::ToColor;
@@ -150,11 +152,12 @@ mod sdl2 {
 }
 
 #[cfg(feature = "tiny-skia")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "tiny-skia")))]
 mod tiny_skia {
-    use crate::clamp;
+    use devela::pclamp;
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
     use tiny_skia::{Color, ColorU8};
-    // use tiny_skia::{PremultipliedColorU8, PremultipliedColorU8};
+    use tiny_skia::{PremultipliedColor as PmColor, PremultipliedColorU8 as PmColorU8};
 
     // u8
 
@@ -180,15 +183,39 @@ mod tiny_skia {
         }
     }
 
+    // u8 (premultiplied)
+
+    impl From<Srgb8> for PmColorU8 {
+        fn from(c: Srgb8) -> PmColorU8 {
+            ColorU8::from(c).premultiply()
+        }
+    }
+    impl From<PmColorU8> for Srgb8 {
+        fn from(c: PmColorU8) -> Srgb8 {
+            c.demultiply().into()
+        }
+    }
+
+    impl From<Srgba8> for PmColorU8 {
+        fn from(c: Srgba8) -> PmColorU8 {
+            ColorU8::from(c).premultiply()
+        }
+    }
+    impl From<PmColorU8> for Srgba8 {
+        fn from(c: PmColorU8) -> Srgba8 {
+            c.demultiply().into()
+        }
+    }
+
     // f32
 
     impl From<Srgb32> for Color {
         fn from(c: Srgb32) -> Color {
             Color::from_rgba(c.r, c.g, c.b, 1.).unwrap_or_else(|| {
                 Color::from_rgba(
-                    clamp(c.r, 0., 1.),
-                    clamp(c.g, 0., 1.),
-                    clamp(c.b, 0., 1.),
+                    pclamp(c.r, 0., 1.),
+                    pclamp(c.g, 0., 1.),
+                    pclamp(c.b, 0., 1.),
                     1.,
                 )
                 .unwrap()
@@ -205,10 +232,10 @@ mod tiny_skia {
         fn from(c: Srgba32) -> Color {
             Color::from_rgba(c.r, c.g, c.b, 1.).unwrap_or_else(|| {
                 Color::from_rgba(
-                    clamp(c.r, 0., 1.),
-                    clamp(c.g, 0., 1.),
-                    clamp(c.b, 0., 1.),
-                    clamp(c.a, 0., 1.),
+                    pclamp(c.r, 0., 1.),
+                    pclamp(c.g, 0., 1.),
+                    pclamp(c.b, 0., 1.),
+                    pclamp(c.a, 0., 1.),
                 )
                 .unwrap()
             })
@@ -219,12 +246,43 @@ mod tiny_skia {
             Srgba32::new(c.red(), c.green(), c.blue(), c.alpha())
         }
     }
+
+    // f32 (premultiplied)
+
+    impl From<Srgb32> for PmColor {
+        fn from(c: Srgb32) -> PmColor {
+            Color::from(c).premultiply()
+        }
+    }
+    impl From<PmColor> for Srgb32 {
+        fn from(c: PmColor) -> Srgb32 {
+            c.demultiply().into()
+        }
+    }
+
+    impl From<Srgba32> for PmColor {
+        fn from(c: Srgba32) -> PmColor {
+            Color::from(c).premultiply()
+        }
+    }
+    impl From<PmColor> for Srgba32 {
+        fn from(c: PmColor) -> Srgba32 {
+            c.demultiply().into()
+        }
+    }
 }
 
 #[cfg(feature = "notcurses")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
 mod notcurses {
     use crate::{Srgb8, Srgba8};
     use notcurses::{Rgb, Rgba};
+
+    impl Srgba8 {
+        pub fn to_notcurses(&self) -> Rgba {
+            self.into()
+        }
+    }
 
     impl From<Srgb8> for Rgb {
         fn from(c: Srgb8) -> Rgb {
@@ -249,31 +307,41 @@ mod notcurses {
             Srgba8::new(r, g, b, a)
         }
     }
+    impl From<&Srgba8> for Rgba {
+        fn from(c: &Srgba8) -> Rgba {
+            Rgba::new(c.r, c.g, c.b, c.a)
+        }
+    }
 }
 
 #[cfg(feature = "approx")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "approx")))]
 mod impl_approx {
     use crate::{Color, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgba32};
     use approx::{AbsDiffEq, RelativeEq, UlpsEq};
 
     // MAYBE add generic versions. E.g. `fn abs<T>(n: T)`.
     #[cfg(not(feature = "std"))]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     #[inline(always)]
     fn abs(n: f32) -> f32 {
         libm::fabsf(n)
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     #[inline(always)]
     fn abs(n: f32) -> f32 {
         f32::abs(n)
     }
 
     #[cfg(not(feature = "std"))]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     #[inline(always)]
     fn signum(n: f32) -> f32 {
         libm::copysignf(n, 1.0)
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     #[inline(always)]
     fn signum(n: f32) -> f32 {
         f32::signum(n)
