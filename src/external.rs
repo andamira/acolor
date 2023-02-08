@@ -154,8 +154,8 @@ mod sdl2 {
 #[cfg(feature = "tiny-skia")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "tiny-skia")))]
 mod tiny_skia {
-    use devela::pclamp;
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
+    use devela::pclamp;
     use tiny_skia::{Color, ColorU8};
     use tiny_skia::{PremultipliedColor as PmColor, PremultipliedColorU8 as PmColorU8};
 
