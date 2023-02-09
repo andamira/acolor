@@ -27,8 +27,10 @@ iunorm = "0.2.1"
 approx = { version = "0.5.1", optional = true, default-features = false }
 libm = { version = "0.2.5", optional = true }
 
+# external formats
 macroquad = { version = "0.3.25", optional = true, default-features = false }
 notcurses = { version = "3.1.0", optional = true }
+rgb = { version = "0.8.35", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
 tiny-skia = { version = "0.8.3", optional = true, default-features = false }
 
@@ -42,7 +44,7 @@ std = ["devela/std", "tiny-skia?/std", "approx?/std"]
 # --no-default-features --features=no-std
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
 
-complete = ["macroquad", "notcurses", "sdl2", "tiny-skia"]
+complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 
 [dev-dependencies]
 

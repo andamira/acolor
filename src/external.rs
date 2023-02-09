@@ -10,6 +10,67 @@
 // - approx
 //
 
+#[cfg(feature = "rgb")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "rgb")))]
+mod rgb {
+    use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
+    use rgb::{RGB, RGBA};
+
+    /// Convert rust-rgb's `RGB<u8>` type into `Srgb8`.
+    impl From<RGB<u8>> for Srgb8 {
+        fn from(item: RGB<u8>) -> Self {
+            Self::new(item.r, item.g, item.b)
+        }
+    }
+    /// Convert `Srgb8` into rust-rgb's `RGB<u8>` type.
+    impl From<Srgb8> for RGB<u8> {
+        fn from(item: Srgb8) -> Self {
+            Self::new(item.r, item.g, item.b)
+        }
+    }
+
+    /// Convert rust-rgb's `RGBA<u8>` type into `Srgba8`.
+    impl From<RGBA<u8>> for Srgba8 {
+        fn from(item: RGBA<u8>) -> Self {
+            Self::new(item.r, item.g, item.b, item.a)
+        }
+    }
+    /// Convert `Srgba8` into rust-rgb's `RGBA<u8>` type.
+    impl From<Srgba8> for RGBA<u8> {
+        fn from(item: Srgba8) -> Self {
+            Self::new(item.r, item.g, item.b, item.a)
+        }
+    }
+
+    //
+
+    /// Convert rust-rgb's `RGB<f32>` type into `Srgb32`.
+    impl From<RGB<f32>> for Srgb32 {
+        fn from(item: RGB<f32>) -> Self {
+            Self::new(item.r, item.g, item.b)
+        }
+    }
+    /// Convert `Srgb32` into rust-rgb's `RGB<f32>` type.
+    impl From<Srgb32> for RGB<f32> {
+        fn from(item: Srgb32) -> Self {
+            Self::new(item.r, item.g, item.b)
+        }
+    }
+
+    /// Convert rust-rgb's `RGBA<f32>` type into `Srgba32`.
+    impl From<RGBA<f32>> for Srgba32 {
+        fn from(item: RGBA<f32>) -> Self {
+            Self::new(item.r, item.g, item.b, item.a)
+        }
+    }
+    /// Convert `Srgba32` into rust-rgb's `RGBA<f32>` type.
+    impl From<Srgba32> for RGBA<f32> {
+        fn from(item: Srgba32) -> Self {
+            Self::new(item.r, item.g, item.b, item.a)
+        }
+    }
+}
+
 #[cfg(feature = "macroquad")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "macroquad")))]
 mod macroquad {
