@@ -212,8 +212,12 @@ mod sdl2 {
     }
 }
 
-#[cfg(feature = "tiny-skia")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "tiny-skia")))]
+// NOTE: tiny-skia fails to compile before we reach this point.
+#[cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no-std")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no-std"))))
+)]
 mod tiny_skia {
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
     use devela::pclamp;

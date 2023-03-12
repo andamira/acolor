@@ -32,9 +32,6 @@
 use super::{Oklab32, Oklch32, GAMMA_32};
 use iunorm::Unorm8;
 
-#[cfg(not(feature = "std"))]
-use libm::powf;
-
 // DEFINITIONS
 // -----------------------------------------------------------------------------
 
@@ -282,6 +279,11 @@ impl Srgb8 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl Srgb8 {
     // LinearSrgb32
 
@@ -461,6 +463,11 @@ impl Srgba8 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl Srgba8 {
     // LinearSrgb32
 
@@ -616,7 +623,14 @@ impl Srgb32 {
     pub const fn to_srgba32(&self, alpha: f32) -> Srgba32 {
         Srgba32::new(self.r, self.g, self.b, alpha)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl Srgb32 {
     // LinearSrgb32
 
     /// Direct conversion from [`LinearSrgb32`].
@@ -666,6 +680,11 @@ impl Srgb32 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl Srgb32 {
     // Oklab32
 
@@ -782,7 +801,14 @@ impl Srgba32 {
     pub const fn to_srgb32(&self) -> Srgb32 {
         Srgb32::from_srgba32(*self)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl Srgba32 {
     // LinearSrgb32
 
     /// Direct conversion from [`LinearSrgb32`].
@@ -834,6 +860,11 @@ impl Srgba32 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl Srgba32 {
     // Oklab32
 
@@ -907,7 +938,14 @@ impl LinearSrgb32 {
     pub const fn to_tuple(c: LinearSrgb32) -> (f32, f32, f32) {
         (c.r, c.g, c.b)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl LinearSrgb32 {
     // Srgb32
 
     /// Direct conversion from [`Srgb32`].
@@ -1000,6 +1038,11 @@ impl LinearSrgb32 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl LinearSrgb32 {
     // Srgb8
 
@@ -1095,7 +1138,14 @@ impl LinearSrgba32 {
     pub fn to_tuple(c: LinearSrgba32) -> (f32, f32, f32, f32) {
         (c.r, c.g, c.b, c.a)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl LinearSrgba32 {
     // Srgb32
 
     /// Direct conversion from [`Srgb32`].
@@ -1194,6 +1244,11 @@ impl LinearSrgba32 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl LinearSrgba32 {
     // Srgb8
 
@@ -1272,6 +1327,11 @@ impl LinearSrgba32 {
 // From/Into impls
 // -----------------------------------------------------------------------------
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 mod impl_from {
     use super::*;
 
@@ -1491,12 +1551,17 @@ mod impl_from {
 
 /// Applies the `gamma` to an `f32` channel.
 #[inline]
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
     if nonlinear >= 0.04045 {
         #[cfg(feature = "std")]
         return ((nonlinear + 0.055) / (1. + 0.055)).powf(gamma);
         #[cfg(not(feature = "std"))]
-        return powf((nonlinear + 0.055) / (1. + 0.055), gamma);
+        return libm::powf((nonlinear + 0.055) / (1. + 0.055), gamma);
     } else {
         nonlinear / 12.92
     }
@@ -1504,12 +1569,17 @@ pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
 
 /// Removes the `gamma` from an `f32` channel.
 #[inline]
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 pub fn nonlinearize32(linear: f32, gamma: f32) -> f32 {
     if linear >= 0.0031308 {
         #[cfg(feature = "std")]
         return (1.055) * linear.powf(1.0 / gamma) - 0.055;
         #[cfg(not(feature = "std"))]
-        return (1.055) * powf(linear, 1.0 / gamma) - 0.055;
+        return (1.055) * libm::powf(linear, 1.0 / gamma) - 0.055;
     } else {
         12.92 * linear
     }

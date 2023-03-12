@@ -34,9 +34,10 @@ pub use color::Color;
 
 pub mod srgb;
 #[doc(inline)]
-pub use srgb::{
-    linearize32, nonlinearize32, LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8,
-};
+#[cfg(any(feature = "std", feature = "no-std"))]
+pub use srgb::{linearize32, nonlinearize32};
+#[doc(inline)]
+pub use srgb::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 
 pub mod oklab;
 #[doc(inline)]

@@ -15,7 +15,7 @@
 use super::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 use devela::{pclamp, pmax};
 
-#[cfg(not(feature = "std"))]
+#[cfg(all(feature = "no-std", not(feature = "std")))]
 use libm::{atan2f, cbrtf, cosf, hypotf, powf, sinf};
 
 /* definitions */
@@ -78,6 +78,11 @@ impl Oklab32 {
     /// Measures the perceptual distance to another Oklab color
     // CHECK:FIX: saturate
     #[inline]
+    #[cfg(any(feature = "std", feature = "no-std"))]
+    #[cfg_attr(
+        feature = "nightly",
+        doc(cfg(any(feature = "std", feature = "no-std")))
+    )]
     pub fn squared_distance(&self, other: &Oklab32) -> f32 {
         #[cfg(feature = "std")]
         return (self.l - other.l).powi(2)
@@ -160,6 +165,7 @@ impl Oklch32 {
 
 // Converts from [`Oklab32`] to [`Oklch32`] color spaces.
 #[inline]
+#[cfg(any(feature = "std", feature = "no-std"))]
 fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
     #[cfg(feature = "std")]
     {
@@ -192,6 +198,7 @@ fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
 
 // Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
+#[cfg(any(feature = "std", feature = "no-std"))]
 fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
     #[cfg(feature = "std")]
     {
@@ -215,6 +222,7 @@ fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
 }
 
 /// Converts from [`LinearSrgb32`] to [`Oklab32`] color spaces.
+#[cfg(any(feature = "std", feature = "no-std"))]
 fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
     #[cfg(feature = "std")]
     let l = (0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b).cbrt();
@@ -286,7 +294,14 @@ impl Oklab32 {
     pub fn to_tuple(c: Oklab32) -> (f32, f32, f32) {
         (c.l, c.a, c.b)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl Oklab32 {
     // LinearSrgb32
 
     /// Direct conversion from [`LinearSrgb32`].
@@ -335,6 +350,11 @@ impl Oklab32 {
 }
 
 /// # Indirect conversions
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
 impl Oklab32 {
     // Srgb8
 
@@ -434,7 +454,14 @@ impl Oklch32 {
     pub fn to_tuple(c: Oklch32) -> (f32, f32, f32) {
         (c.l, c.c, c.h)
     }
+}
 
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+impl Oklch32 {
     // Oklab32
 
     /// Direct conversion from [`Oklab32`].
@@ -448,10 +475,7 @@ impl Oklch32 {
     pub fn to_oklab32(&self) -> Oklab32 {
         oklch32_to_oklab32(*self)
     }
-}
 
-/// # Indirect conversions
-impl Oklch32 {
     // Srgb8
 
     /// Indirect conversion from [`Srgb8`].
@@ -494,7 +518,6 @@ impl Oklch32 {
     pub fn from_srgb32(c: Srgb32) -> Oklch32 {
         c.to_oklch32()
     }
-
     /// Indirect conversion to [`Srgb32`].
     #[inline]
     pub fn to_srgb32(&self) -> Srgb32 {
@@ -600,6 +623,15 @@ mod impl_from {
             (c.l, c.a, c.b)
         }
     }
+}
+
+#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", feature = "no-std")))
+)]
+mod impl_from_std {
+    use super::*;
 
     impl From<Oklab32> for Oklch32 {
         #[inline]
