@@ -12,6 +12,7 @@
 //! - <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab>
 //
 
+#[cfg(any(feature = "std", feature = "no-std"))]
 use super::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 use devela::{pclamp, pmax};
 
@@ -245,6 +246,7 @@ fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
 }
 
 /// Converts from [`Oklab32`] to [`LinearSrgb32`] color spaces.
+#[cfg(any(feature = "std", feature = "no-std"))]
 fn oklab32_to_linear_srgb32(c: Oklab32) -> LinearSrgb32 {
     let _l = c.l + 0.3963377774 * c.a + 0.2158037573 * c.b;
     let _m = c.l - 0.1055613458 * c.a - 0.0638541728 * c.b;

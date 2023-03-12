@@ -25,6 +25,9 @@
 #![cfg_attr(feature = "safe", forbid(unsafe_code))]
 #![cfg_attr(feature = "nightly", feature(doc_cfg))]
 
+#[cfg(all(feature = "std", feature = "no-std"))]
+compile_error!("You can't have both the `std` and `no-std` features at the same time.");
+
 /* color trait */
 
 mod color;
