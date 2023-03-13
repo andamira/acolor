@@ -4,7 +4,6 @@
 //
 
 use crate::*;
-use devela::{pclamp, pmax, pmin};
 use iunorm::Unorm8;
 
 #[test]
