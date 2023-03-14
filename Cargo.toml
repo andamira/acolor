@@ -22,7 +22,7 @@ publish = true
 
 [dependencies]
 devela = { version = "0.1.7", default-features = false }
-iunorm = "0.2.1"
+iunorm = { version = "0.2.1", default-features= false }
 
 #/ optional #/
 
@@ -44,7 +44,7 @@ nightly = []
 
 safe = ["devela/safe"]
 
-std = ["devela/std", "tiny-skia?/std", "approx?/std"]
+std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
 
 complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
