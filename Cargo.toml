@@ -52,7 +52,7 @@ complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 [dev-dependencies]
 
 [package.metadata.docs.rs]
-features = ["nightly", "complete"]
+features = ["nightly", "complete", "notcurses?/vendored"]
 
 [badges]
 maintenance = { status = "experimental" }
