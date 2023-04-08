@@ -20,6 +20,19 @@ categories = ["graphics", "no-std"]
 keywords = ["color", "rgb", "lab"]
 publish = true
 
+[features]
+default = ["std", "safe", "approx"]
+#
+std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
+no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
+#
+safe = ["devela/safe"]
+#
+nightly = []
+#
+complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
+
+
 [dependencies]
 devela = { version = "0.1.10", default-features = false }
 iunorm = { version = "0.2.1", default-features= false }
@@ -37,19 +50,6 @@ rgb = { version = "0.8.36", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
 # tiny-skia needs either `std` or `no-std` feature.
 tiny-skia = { version = "0.8.3", optional = true, default-features = false }
-
-[features]
-default = ["std", "safe", "approx"]
-nightly = []
-
-safe = ["devela/safe"]
-
-std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
-no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
-
-complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
-
-[dev-dependencies]
 
 [package.metadata.docs.rs]
 features = ["nightly", "complete", "notcurses?/vendored"]
