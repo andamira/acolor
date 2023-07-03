@@ -3,7 +3,6 @@ name = "acolor"
 description = "Simple color types, operations and conversions."
 version = "0.0.7"
 edition = "2021"
-resolver = "2"
 rust-version = "1.64.0"
 authors = ["José Luis Cruz <joseluis@andamira.net>"]
 repository = "https://github.com/andamira/acolor"
@@ -22,19 +21,18 @@ publish = true
 
 [features]
 default = ["std", "safe", "approx"]
-#
+
 std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
-#
 safe = ["devela/safe"]
-#
-nightly = []
-#
+unsafe = [] # enable unsafe alternatives
+nightly = [] # used only for better docs
+
 complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 
 
 [dependencies]
-devela = { version = "0.1.10", default-features = false }
+devela = { version = "0.5.1", default-features = false }
 iunorm = { version = "0.2.1", default-features= false }
 
 #/ optional #/
@@ -45,11 +43,11 @@ libm = { version = "0.2.6", optional = true }
 #/ external formats /#
 
 macroquad = { version = "0.3.25", optional = true, default-features = false }
-notcurses = { version = "3.3.0", optional = true }
+notcurses = { version = "3.3.1", optional = true }
 rgb = { version = "0.8.36", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
 # tiny-skia needs either `std` or `no-std` feature.
-tiny-skia = { version = "0.8.3", optional = true, default-features = false }
+tiny-skia = { version = "0.9.0", optional = true, default-features = false }
 
 [package.metadata.docs.rs]
 features = ["nightly", "complete", "notcurses?/vendored"]
