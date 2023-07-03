@@ -4,9 +4,10 @@
 //
 
 use super::{LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgb8, Srgba32, Srgba8};
+use core::fmt::Debug;
 
 /// Common color trait for all supported color formats.
-pub trait Color {
+pub trait Color: Copy + Debug + PartialEq {
     /// The type of the inner color components.
     type Inner;
 
