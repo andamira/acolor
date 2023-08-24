@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.8] - 2023-08-24
+
 ### Added
 - add `all` root module.
 - add features: `nightly_docs`, `safest`, `unsafe`, `unsafest`, `alloc`.
@@ -84,7 +86,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 - add `no-std` feature.
 - add tests.
 
-[unreleased]: https://github.com/andamira/devela/compare/v0.0.7...HEAD
+[unreleased]: https://github.com/andamira/devela/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/andamira/devela/releases/tag/v0.0.8
 [0.0.7]: https://github.com/andamira/devela/releases/tag/v0.0.7
 [0.0.6]: https://github.com/andamira/devela/releases/tag/v0.0.6
 [0.0.5]: https://github.com/andamira/devela/releases/tag/v0.0.5
