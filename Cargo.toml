@@ -14,7 +14,7 @@ include = [
 	"/README.md",
 	"/LICENSE-*",
 ]
-categories = ["graphics", "no-std"]
+categories = ["graphics", "no-std::no-alloc"]
 keywords = ["color", "rgb", "lab"]
 publish = true
 
@@ -32,6 +32,7 @@ unsafe = [] # enable unsafe alternatives
 unsafest = ["unsafe", "devela/unsafe"] # enable unsafe recursively
 
 nightly = [] # used only for better docs
+nightly_docs = ["nightly", "complete", "notcurses?/vendored"]
 
 complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 
@@ -55,7 +56,8 @@ sdl2 = { version = "0.35.2", optional = true, default-features = false, features
 tiny-skia = { version = "0.9.0", optional = true, default-features = false }
 
 [package.metadata.docs.rs]
-features = ["nightly", "complete", "notcurses?/vendored"]
+no-default-features = true
+features = [ "nightly_docs" ]
 
 [badges]
 maintenance = { status = "experimental" }
