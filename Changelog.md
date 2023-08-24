@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.9] - 2023-08-24
+
+### Fixed
+- fix `docs.rs` compilation.
+- update alises.
+
 ## [0.0.8] - 2023-08-24
 
 ### Added
@@ -86,15 +92,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 - add `no-std` feature.
 - add tests.
 
-[unreleased]: https://github.com/andamira/devela/compare/v0.0.8...HEAD
-[0.0.8]: https://github.com/andamira/devela/releases/tag/v0.0.8
-[0.0.7]: https://github.com/andamira/devela/releases/tag/v0.0.7
-[0.0.6]: https://github.com/andamira/devela/releases/tag/v0.0.6
-[0.0.5]: https://github.com/andamira/devela/releases/tag/v0.0.5
-[0.0.4]: https://github.com/andamira/devela/releases/tag/v0.0.4
-[0.0.3]: https://github.com/andamira/devela/releases/tag/v0.0.3
-[0.0.2]: https://github.com/andamira/devela/releases/tag/v0.0.2
-[0.0.1]: https://github.com/andamira/devela/releases/tag/v0.0.1
+[unreleased]: https://github.com/andamira/acolor/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/andamira/acolor/releases/tag/v0.0.8
+[0.0.7]: https://github.com/andamira/acolor/releases/tag/v0.0.7
+[0.0.6]: https://github.com/andamira/acolor/releases/tag/v0.0.6
+[0.0.5]: https://github.com/andamira/acolor/releases/tag/v0.0.5
+[0.0.4]: https://github.com/andamira/acolor/releases/tag/v0.0.4
+[0.0.3]: https://github.com/andamira/acolor/releases/tag/v0.0.3
+[0.0.2]: https://github.com/andamira/acolor/releases/tag/v0.0.2
+[0.0.1]: https://github.com/andamira/acolor/releases/tag/v0.0.1
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
