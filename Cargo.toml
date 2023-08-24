@@ -21,7 +21,8 @@ publish = true
 [features]
 default = ["std", "approx"]
 
-std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
+std = ["alloc", "iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
+alloc = ["devela/alloc"] # features that depend on allocation (unused)
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
 
 safe = [] # forbid unsafe at the crate level
