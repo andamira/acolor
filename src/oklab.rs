@@ -14,7 +14,7 @@
 
 #[cfg(any(feature = "std", feature = "no-std"))]
 use super::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
-use devela::{pclamp, pmax};
+use devela::all::{pclamp, pmax};
 
 #[cfg(all(feature = "no-std", not(feature = "std")))]
 use libm::{atan2f, cbrtf, cosf, hypotf, powf, sinf};
