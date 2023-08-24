@@ -54,7 +54,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  # 2. documentation
+  # 3. documentation
   doc:
     name: "nightly / doc"
     runs-on: ubuntu-latest
@@ -72,26 +72,7 @@ jobs:
         env:
           RUSTDOCFLAGS: --cfg docsrs
 
-  # 2.
-  # NOTE:DISABLED
-  # TODO:IMPROVE
-  # hack:
-  #   name: "ubuntu / stable / features"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: "checkout"
-  #       uses: actions/checkout@v3
-  #       # with:
-  #       #   submodules: true
-  #     - name: "Install stable"
-  #       uses: dtolnay/rust-toolchain@stable
-  #     - name: "cargo install cargo-hack"
-  #       uses: taiki-e/install-action@cargo-hack
-  #     - name: "cargo hack"
-  #       run: cargo hack --feature-powerset check --lib --tests
-  #
   # 2. MSRV
-  # NOTE:CUSTOM keep in sync with Cargo.toml
   msrv:
     name: "ubuntu / ${{ matrix.msrv }}"
     runs-on: ubuntu-latest
@@ -99,7 +80,7 @@ jobs:
     # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
     strategy:
       matrix:
-        msrv: [1.64.0]
+        msrv: [1.71.1] # sync with ../../{readme, Cargo.toml, check.sh}
     steps:
       - name: "checkout"
         uses: actions/checkout@v3
