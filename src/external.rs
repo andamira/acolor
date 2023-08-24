@@ -220,7 +220,7 @@ mod sdl2 {
 )]
 mod tiny_skia {
     use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
-    use devela::pclamp;
+    use devela::cmp::pclamp;
     use tiny_skia::{Color, ColorU8};
     use tiny_skia::{PremultipliedColor as PmColor, PremultipliedColorU8 as PmColorU8};
 
