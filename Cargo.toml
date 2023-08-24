@@ -11,7 +11,6 @@ license = "MIT OR Apache-2.0"
 include = [
 	"/src/**/*.rs",
 	"/Cargo.toml",
-	"/res/*",
 	"/README.md",
 	"/LICENSE-*",
 ]
@@ -20,12 +19,17 @@ keywords = ["color", "rgb", "lab"]
 publish = true
 
 [features]
-default = ["std", "safe", "approx"]
+default = ["std", "approx"]
 
 std = ["iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
 no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
-safe = ["devela/safe"]
+
+safe = [] # forbid unsafe at the crate level
+safest = ["safe", "devela/safe"] # forbid unsafe recursively
+
 unsafe = [] # enable unsafe alternatives
+unsafest = ["unsafe", "devela/unsafe"] # enable unsafe recursively
+
 nightly = [] # used only for better docs
 
 complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
