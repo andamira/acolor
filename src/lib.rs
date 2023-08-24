@@ -30,7 +30,6 @@ compile_error!("You can't have both the `std` and `no-std` features at the same 
 #[cfg(all(feature = "safe", feature = "unsafe"))]
 compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
 
-
 /* color trait */
 
 mod color;
@@ -49,6 +48,7 @@ pub mod oklab;
 #[doc(inline)]
 pub use oklab::{Oklab32, Oklch32};
 
+// trait impls on external types
 mod external;
 
 #[cfg(test)]
@@ -58,3 +58,9 @@ mod tests;
 
 /// The default gamma value as an [`f32`].
 pub const GAMMA_32: f32 = 2.4;
+
+/// All items are reexported here.
+pub mod all {
+    #[doc(inline)]
+    pub use super::{color::Color, external::*, oklab::*, srgb::*, GAMMA_32};
+}

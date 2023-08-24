@@ -1,6 +1,6 @@
 // acolor::oklab
 //
-//! Oklab is a non-linear, perceptually uniform color space.
+//! A non-linear, perceptually uniform color space.
 //!
 //! Oklch is the corresponding polar form of Oklab.
 //!
