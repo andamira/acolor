@@ -13,7 +13,7 @@
 #[cfg(feature = "rgb")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "rgb")))]
 mod rgb {
-    use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
+    use crate::srgb::{Srgb32, Srgb8, Srgba32, Srgba8};
     use rgb::{RGB, RGBA};
 
     /// Convert rust-rgb's `RGB<u8>` type into `Srgb8`.
@@ -74,7 +74,7 @@ mod rgb {
 #[cfg(feature = "macroquad")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "macroquad")))]
 mod macroquad {
-    use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
+    use crate::srgb::{Srgb32, Srgb8, Srgba32, Srgba8};
     pub use macroquad::color::Color;
 
     // u8
@@ -152,7 +152,7 @@ mod macroquad {
 #[cfg(feature = "sdl2")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
 mod sdl2 {
-    use crate::{Srgb8, Srgba8};
+    use crate::srgb::{Srgb8, Srgba8};
     use sdl2::gfx::primitives::ToColor;
     use sdl2::pixels::Color;
 
@@ -219,7 +219,7 @@ mod sdl2 {
     doc(cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no-std"))))
 )]
 mod tiny_skia {
-    use crate::{Srgb32, Srgb8, Srgba32, Srgba8};
+    use crate::srgb::{Srgb32, Srgb8, Srgba32, Srgba8};
     use devela::cmp::pclamp;
     use tiny_skia::{Color, ColorU8};
     use tiny_skia::{PremultipliedColor as PmColor, PremultipliedColorU8 as PmColorU8};
@@ -340,7 +340,7 @@ mod tiny_skia {
 #[cfg(feature = "notcurses")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
 mod notcurses {
-    use crate::{Srgb8, Srgba8};
+    use crate::srgb::{Srgb8, Srgba8};
     use notcurses::{Rgb, Rgba};
 
     impl Srgba8 {
@@ -382,7 +382,11 @@ mod notcurses {
 #[cfg(feature = "approx")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "approx")))]
 mod impl_approx {
-    use crate::{Color, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgba32};
+    use crate::{
+        color::Color,
+        oklab::{Oklab32, Oklch32},
+        srgb::{LinearSrgb32, LinearSrgba32, Srgb32, Srgba32},
+    };
     use approx::{AbsDiffEq, RelativeEq, UlpsEq};
 
     // MAYBE add generic versions. E.g. `fn abs<T>(n: T)`.

@@ -30,7 +30,10 @@
 //
 
 #[cfg(any(feature = "std", feature = "no-std"))]
-use super::{Oklab32, Oklch32, GAMMA_32};
+use crate::{
+    oklab::{Oklab32, Oklch32},
+    GAMMA_32,
+};
 use iunorm::Unorm8;
 
 // DEFINITIONS

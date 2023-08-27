@@ -3,7 +3,7 @@
 //!
 //
 
-use crate::*;
+use crate::all::*;
 use iunorm::Unorm8;
 
 #[test]

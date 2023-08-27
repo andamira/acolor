@@ -3,7 +3,10 @@
 //!
 //
 
-use super::{LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgb8, Srgba32, Srgba8};
+use crate::{
+    oklab::{Oklab32, Oklch32},
+    srgb::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8},
+};
 use core::fmt::Debug;
 
 /// Common color trait for all supported color formats.

@@ -13,7 +13,7 @@
 //
 
 #[cfg(any(feature = "std", feature = "no-std"))]
-use super::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
+use crate::srgb::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 use devela::cmp::{pclamp, pmax};
 
 #[cfg(all(feature = "no-std", not(feature = "std")))]
