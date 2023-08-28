@@ -1,3 +1,7 @@
+[build]
+# rustdocflags = [ "--html-in-header", "./res/rustdoc-header.html"]
+
+
 [alias]
 
 # CHECK
@@ -94,6 +98,3 @@ E = "expand"
 Eb = "expand --bin"
 Ee = "expand --example"
 El = "expand --lib"
-
-[build]
-# rustdocflags = [ "--html-in-header", "./res/rustdoc-header.html"]
