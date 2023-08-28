@@ -7,7 +7,7 @@ use crate::all::*;
 use iunorm::Unorm8;
 
 #[test]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn srgb8() {
     let c = Srgb8::new(0xA, 0xB, 0xC);
 
@@ -49,7 +49,7 @@ fn srgb8_no_default() {
 }
 
 #[test]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn srgba8() {
     let c = Srgba8::new(0xA, 0xB, 0xC, 0xD);
 

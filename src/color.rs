@@ -62,10 +62,10 @@ pub trait Color: Copy + Debug + PartialEq {
     fn color_to_oklch32(&self) -> Oklch32;
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 mod impl_color {
     use super::{

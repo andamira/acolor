@@ -21,19 +21,42 @@ publish = true
 [features]
 default = ["std", "approx"]
 
-std = ["alloc", "iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std"]
+# environment features
+# (not enabling "std" declares the library as "no_std")
+std = [ # features that depend on the standard library
+	"alloc",
+	"iunorm/std",
+	"devela/std",
+	"tiny-skia?/std",
+	"approx?/std"
+]
 alloc = ["devela/alloc"] # features that depend on allocation (unused)
-no-std = ["libm", "approx", "tiny-skia?/no-std-float"]
+no_std = [ # features incompatible with the standard library
+	"libm",
+	"approx",
+	"tiny-skia?/no-std-float"
+]
 
+# safety features
 safe = [] # forbid unsafe at the crate level
-safest = ["safe", "devela/safe"] # forbid unsafe recursively
-
+safest = ["safe", "devela/safest"] # forbid unsafe recursively
 unsafe = [] # enable unsafe alternatives
-unsafest = ["unsafe", "devela/unsafe"] # enable unsafe recursively
+unsafest = ["unsafe", "devela/unsafest"] # enable unsafe recursively
 
-nightly = [] # used only for better docs
-nightly_docs = ["nightly", "std", "complete", "notcurses?/vendored"]
+# nightly features
+nightly = [] # used only for enhanced documentation
+nightly_docs = [ # features for docs.rs
+	"nightly",
+	"std",
+	"complete",
+	"notcurses?/vendored",
+	"devela/nightly_docs"
+]
 
+# deprecated features
+no-std = ["no_std"]
+
+# other features
 complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 
 
@@ -41,19 +64,22 @@ complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 devela = { version = "0.8.0", default-features = false }
 iunorm = { version = "0.2.1", default-features= false }
 
-#/ optional #/
+#/ optional dependencies #/
 
 approx = { version = "0.5.1", optional = true, default-features = false }
 libm = { version = "0.2.6", optional = true }
 
-#/ external formats /#
+#/ optional support for external types /#
 
 macroquad = { version = "0.3.25", optional = true, default-features = false }
 notcurses = { version = "3.3.1", optional = true }
 rgb = { version = "0.8.36", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
-# tiny-skia needs either `std` or `no-std` feature.
+# tiny-skia needs either `std` or `no_std` feature.
 tiny-skia = { version = "0.9.0", optional = true, default-features = false }
+
+[dev-dependencies]
+
 
 [package.metadata.docs.rs]
 no-default-features = true

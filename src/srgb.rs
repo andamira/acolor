@@ -29,7 +29,7 @@
 //   - nonlinearize32
 //
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 use crate::{
     oklab::{Oklab32, Oklch32},
     GAMMA_32,
@@ -283,10 +283,10 @@ impl Srgb8 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgb8 {
     // LinearSrgb32
@@ -467,10 +467,10 @@ impl Srgba8 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgba8 {
     // LinearSrgb32
@@ -629,10 +629,10 @@ impl Srgb32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgb32 {
     // LinearSrgb32
@@ -684,10 +684,10 @@ impl Srgb32 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgb32 {
     // Oklab32
@@ -807,10 +807,10 @@ impl Srgba32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgba32 {
     // LinearSrgb32
@@ -864,10 +864,10 @@ impl Srgba32 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Srgba32 {
     // Oklab32
@@ -944,10 +944,10 @@ impl LinearSrgb32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl LinearSrgb32 {
     // Srgb32
@@ -1042,10 +1042,10 @@ impl LinearSrgb32 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl LinearSrgb32 {
     // Srgb8
@@ -1144,10 +1144,10 @@ impl LinearSrgba32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl LinearSrgba32 {
     // Srgb32
@@ -1248,10 +1248,10 @@ impl LinearSrgba32 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl LinearSrgba32 {
     // Srgb8
@@ -1331,10 +1331,10 @@ impl LinearSrgba32 {
 // From/Into impls
 // -----------------------------------------------------------------------------
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 mod impl_from {
     use super::*;
@@ -1555,10 +1555,10 @@ mod impl_from {
 
 /// Applies the `gamma` to an `f32` channel.
 #[inline]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
     if nonlinear >= 0.04045 {
@@ -1573,10 +1573,10 @@ pub fn linearize32(nonlinear: f32, gamma: f32) -> f32 {
 
 /// Removes the `gamma` from an `f32` channel.
 #[inline]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 pub fn nonlinearize32(linear: f32, gamma: f32) -> f32 {
     if linear >= 0.0031308 {

@@ -12,11 +12,11 @@
 //! - <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklab>
 //
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 use crate::srgb::{LinearSrgb32, LinearSrgba32, Srgb32, Srgb8, Srgba32, Srgba8};
 use devela::cmp::{pclamp, pmax};
 
-#[cfg(all(feature = "no-std", not(feature = "std")))]
+#[cfg(all(feature = "no_std", not(feature = "std")))]
 use libm::{atan2f, cbrtf, cosf, hypotf, powf, sinf};
 
 /* definitions */
@@ -79,10 +79,10 @@ impl Oklab32 {
     /// Measures the perceptual distance to another Oklab color
     // CHECK:FIX: saturate
     #[inline]
-    #[cfg(any(feature = "std", feature = "no-std"))]
+    #[cfg(any(feature = "std", feature = "no_std"))]
     #[cfg_attr(
         feature = "nightly",
-        doc(cfg(any(feature = "std", feature = "no-std")))
+        doc(cfg(any(feature = "std", feature = "no_std")))
     )]
     pub fn squared_distance(&self, other: &Oklab32) -> f32 {
         #[cfg(feature = "std")]
@@ -166,7 +166,7 @@ impl Oklch32 {
 
 // Converts from [`Oklab32`] to [`Oklch32`] color spaces.
 #[inline]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
     #[cfg(feature = "std")]
     {
@@ -199,7 +199,7 @@ fn oklab32_to_oklch32(c: Oklab32) -> Oklch32 {
 
 // Converts from [`Oklch32`] to [`Oklab32`] color spaces.
 #[inline]
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
     #[cfg(feature = "std")]
     {
@@ -223,7 +223,7 @@ fn oklch32_to_oklab32(c: Oklch32) -> Oklab32 {
 }
 
 /// Converts from [`LinearSrgb32`] to [`Oklab32`] color spaces.
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
     #[cfg(feature = "std")]
     let l = (0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b).cbrt();
@@ -246,7 +246,7 @@ fn linear_srgb32_to_oklab32(c: LinearSrgb32) -> Oklab32 {
 }
 
 /// Converts from [`Oklab32`] to [`LinearSrgb32`] color spaces.
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 fn oklab32_to_linear_srgb32(c: Oklab32) -> LinearSrgb32 {
     let _l = c.l + 0.3963377774 * c.a + 0.2158037573 * c.b;
     let _m = c.l - 0.1055613458 * c.a - 0.0638541728 * c.b;
@@ -298,10 +298,10 @@ impl Oklab32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Oklab32 {
     // LinearSrgb32
@@ -352,10 +352,10 @@ impl Oklab32 {
 }
 
 /// # Indirect conversions
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Oklab32 {
     // Srgb8
@@ -458,10 +458,10 @@ impl Oklch32 {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 impl Oklch32 {
     // Oklab32
@@ -627,10 +627,10 @@ mod impl_from {
     }
 }
 
-#[cfg(any(feature = "std", feature = "no-std"))]
+#[cfg(any(feature = "std", feature = "no_std"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(any(feature = "std", feature = "no-std")))
+    doc(cfg(any(feature = "std", feature = "no_std")))
 )]
 mod impl_from_std {
     use super::*;

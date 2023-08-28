@@ -213,10 +213,10 @@ mod sdl2 {
 }
 
 // NOTE: tiny-skia fails to compile before we reach this point.
-#[cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no-std")))]
+#[cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no_std")))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no-std"))))
+    doc(cfg(all(feature = "tiny-skia", any(feature = "std", feature = "no_std"))))
 )]
 mod tiny_skia {
     use crate::srgb::{Srgb32, Srgb8, Srgba32, Srgba8};
