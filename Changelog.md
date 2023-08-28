@@ -9,9 +9,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [0.0.9] - 2023-08-24
 
+### Changed
+- deprecate feature `no-std` for `no_std`.
+
 ### Fixed
 - fix `docs.rs` compilation.
-- update alises.
+- update aliases.
 
 ## [0.0.8] - 2023-08-24
 
