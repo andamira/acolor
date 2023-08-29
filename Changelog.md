@@ -7,10 +7,17 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
-## [0.0.9] - 2023-08-24
+## [0.0.10] - 2023-08-29
+
+### Removed
+- remove most items from the root.
 
 ### Changed
+- update MSRV to `1.72.0`.
+- update `devela` to `0.8.0`.
 - deprecate feature `no-std` for `no_std`.
+
+## [0.0.9] - 2023-08-24
 
 ### Fixed
 - fix `docs.rs` compilation.
@@ -95,7 +102,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 - add `no-std` feature.
 - add tests.
 
-[unreleased]: https://github.com/andamira/acolor/compare/v0.0.8...HEAD
+[unreleased]: https://github.com/andamira/acolor/compare/v0.0.10...HEAD
+[0.0.10]: https://github.com/andamira/acolor/releases/tag/v0.0.10
+[0.0.9]: https://github.com/andamira/acolor/releases/tag/v0.0.9
 [0.0.8]: https://github.com/andamira/acolor/releases/tag/v0.0.8
 [0.0.7]: https://github.com/andamira/acolor/releases/tag/v0.0.7
 [0.0.6]: https://github.com/andamira/acolor/releases/tag/v0.0.6

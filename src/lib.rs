@@ -11,6 +11,7 @@
 // - red, green, blue
 // - cyan, magenta, yellow
 
+// warnings
 #![warn(clippy::all)]
 #![allow(
     clippy::float_arithmetic,
@@ -20,15 +21,19 @@
     clippy::excessive_precision,
     clippy::pattern_type_mismatch
 )]
+// environment
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(feature = "safe", forbid(unsafe_code))]
 #![cfg_attr(feature = "nightly", feature(doc_cfg))]
+#[cfg(feature = "alloc")]
+extern crate alloc;
 
+// safeguards
 #[cfg(all(feature = "std", feature = "no_std"))]
 compile_error!("You can't have both the `std` and `no_std` features at the same time.");
 #[cfg(all(feature = "safe", feature = "unsafe"))]
 compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
-
+// deprecated
 devela::deprecate_feature![old: "no-std", new: "no_std", since: "0.0.10"];
 
 mod external; // trait impls on external types
