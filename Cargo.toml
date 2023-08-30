@@ -18,68 +18,64 @@ categories = ["graphics", "no-std::no-alloc"]
 keywords = ["color", "rgb", "lab"]
 publish = true
 
+# ------------------------------------------------------------------------------
+
 [features]
 default = ["std", "approx"]
 
-# environment features
+#* environment features *#
 # (not enabling "std" declares the library as "no_std")
-std = [ # features that depend on the standard library
+std = [ # enables features that depend on the standard library
 	"alloc",
-	"iunorm/std",
-	"devela/std",
-	"tiny-skia?/std",
-	"approx?/std"
+	"iunorm/std", "devela/std", "tiny-skia?/std", "approx?/std",
 ]
-alloc = ["devela/alloc"] # features that depend on allocation (unused)
-no_std = [ # features incompatible with the standard library
-	"libm",
-	"approx",
-	"tiny-skia?/no-std-float"
+alloc = ["devela/alloc"] # enables features that depend on allocation (unused)
+no_std = [ # enables features incompatible with the standard library
+	"libm", "approx", "tiny-skia?/no-std-float",
 ]
 
-# safety features
-safe = [] # forbid unsafe at the crate level
-safest = ["safe", "devela/safest"] # forbid unsafe recursively
-unsafe = [] # enable unsafe alternatives
-unsafest = ["unsafe", "devela/unsafest"] # enable unsafe recursively
+#* safety features *#
+safe = [] # forbids unsafe at the crate level
+safest = ["safe", "devela/safest"] # forbids unsafe recursively
+unsafe = [] # enables all the unsafe features at the crate level (unused)
+unsafest = ["unsafe", "devela/unsafest"] # enables unsafe recursively (unused)
 
-# nightly features
-nightly = [] # used only for enhanced documentation
+#* nightly features *#
+nightly = [] # enables the nightly features
 nightly_docs = [ # features for docs.rs
-	"nightly",
-	"std",
-	"complete",
+	"nightly", "std", "full",
 	"notcurses?/vendored",
-	"devela/nightly_docs"
+	"devela/nightly_docs",
 ]
 
-# deprecated features
-no-std = ["no_std"]
+#* deprecated features *#
+no-std = ["no_std"] # since 0.0.10
+complete = ["full"] # since 0.0.11
 
 # other features
-complete = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
+full = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 
+# ------------------------------------------------------------------------------
 
 [dependencies]
 devela = { version = "0.8.0", default-features = false }
 iunorm = { version = "0.2.1", default-features= false }
 
-#/ optional dependencies #/
-
+#* optional dependencies *#
 approx = { version = "0.5.1", optional = true, default-features = false }
 libm = { version = "0.2.6", optional = true }
 
-#/ optional support for external types /#
-
+#* optional supported external types */
 macroquad = { version = "0.3.25", optional = true, default-features = false }
 notcurses = { version = "3.3.1", optional = true }
 rgb = { version = "0.8.36", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
-# tiny-skia needs either `std` or `no_std` feature.
+# needs either `std` or `no_std` feature:
 tiny-skia = { version = "0.9.0", optional = true, default-features = false }
 
 [dev-dependencies]
 
+# ------------------------------------------------------------------------------
 
 [package.metadata.docs.rs]
 no-default-features = true

@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+- deprecate and rename feature `complete` to `all`.
+
 ## [0.0.10] - 2023-08-29
 
 ### Removed
@@ -15,7 +18,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Changed
 - update MSRV to `1.72.0`.
 - update `devela` to `0.8.0`.
-- deprecate feature `no-std` for `no_std`.
+- deprecate and rename feature `no-std` to `no_std`.
 
 ## [0.0.9] - 2023-08-24
 

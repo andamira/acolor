@@ -35,6 +35,7 @@ compile_error!("You can't have both the `std` and `no_std` features at the same 
 compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
 // deprecated
 devela::deprecate_feature![old: "no-std", new: "no_std", since: "0.0.10"];
+devela::deprecate_feature![old: "complete", new: "full", since: "0.0.11"];
 
 mod external; // trait impls on external types
 #[cfg(test)]
