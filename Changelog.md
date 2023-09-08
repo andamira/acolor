@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.11] - 2023-09-08
+
 ### Added
 - new features: `full_std`, `full_no_std`.
   - add `tiny-skia` to both.
@@ -119,7 +121,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 - add `no-std` feature.
 - add tests.
 
-[unreleased]: https://github.com/andamira/acolor/compare/v0.0.10...HEAD
+[unreleased]: https://github.com/andamira/acolor/compare/v0.0.11...HEAD
+[0.0.11]: https://github.com/andamira/acolor/releases/tag/v0.0.11
 [0.0.10]: https://github.com/andamira/acolor/releases/tag/v0.0.10
 [0.0.9]: https://github.com/andamira/acolor/releases/tag/v0.0.9
 [0.0.8]: https://github.com/andamira/acolor/releases/tag/v0.0.8
