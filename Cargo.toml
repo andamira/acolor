@@ -25,8 +25,11 @@ publish = true
 #* capability features *#
 default = []
 full = [ # enables optional capabilities in this crate
-	"approx", "macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"
+	"approx", "macroquad", "notcurses", "rgb", "sdl2",
+	# NOTE: tiny-skia doesn't work without either `std` or `no_std`
 ]
+full_std = ["std", "full", "tiny-skia"]
+full_no_std = ["no_std", "full", "tiny-skia"]
 
 #* environment features *#
 std = [ # disables `no_std` compatibility and enables `std` functionality
