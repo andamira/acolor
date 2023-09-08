@@ -58,20 +58,20 @@ full = ["macroquad", "notcurses", "rgb", "sdl2", "tiny-skia"]
 # ------------------------------------------------------------------------------
 
 [dependencies]
-devela = { version = "0.8.0", default-features = false }
-iunorm = { version = "0.2.1", default-features= false }
+devela = "0.9.0"
+iunorm = "0.2.2"
 
 #* optional dependencies *#
 approx = { version = "0.5.1", optional = true, default-features = false }
 libm = { version = "0.2.6", optional = true }
 
 #* optional supported external types */
-macroquad = { version = "0.3.25", optional = true, default-features = false }
-notcurses = { version = "3.3.1", optional = true }
+macroquad = { version = "0.4.2", optional = true, default-features = false }
+notcurses = { version = "3.5.0", optional = true }
 rgb = { version = "0.8.36", optional = true, default-features = false }
 sdl2 = { version = "0.35.2", optional = true, default-features = false, features = ["gfx"] }
 # needs either `std` or `no_std` feature:
-tiny-skia = { version = "0.9.0", optional = true, default-features = false }
+tiny-skia = { version = "0.11.1", optional = true, default-features = false }
 
 [dev-dependencies]
 
