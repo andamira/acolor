@@ -1,6 +1,6 @@
 // acolor
 //
-//! A handy selection of color representations, conversions and operations.
+//! Color representations, operations and conversions.
 //
 // # Color components
 //

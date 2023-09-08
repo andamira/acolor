@@ -1,6 +1,6 @@
 [package]
 name = "acolor"
-description = "Simple color types, operations and conversions."
+description = "Color representations, operations and conversions."
 version = "0.0.10"
 edition = "2021"
 rust-version = "1.72.0" # sync with readme, check.sh & .github/workflows/check.yml

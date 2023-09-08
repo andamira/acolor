@@ -4,7 +4,7 @@
 [![API](https://docs.rs/acolor/badge.svg)](https://docs.rs/acolor/)
 [![MSRV: 1.72.0](https://flat.badgen.net/badge/MSRV/1.72.0/purple)](https://releases.rs/docs/1.72.0/)
 
-A practical selection of color representations, conversions and operations.
+Color representations, operations and conversions.
 
 See [the documentation](https://docs.rs/acolor/) for more information.
 
