@@ -7,15 +7,22 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+- new features: `full_std`, `full_no_std`.
+  - add `tiny-skia` to both.
+
 ### Changed
 - remove `std` and `approx` from default features.
 - update dependencies: `devela`, `iunorm`, `macroquad`, `notcurses`, `tiny-skia`.
 - deprecate and rename feature `complete` to `full`.
-- add `full` feature to `nightly_docs`.
+- add `full_std` feature to `nightly_docs`.
+- remove `tiny_skia` feature from `full`.
 - add `approx` feature to `full`.
 
 ### Fixes
-- refactor manifest, update comments.
+- fix CI.
+- refactor manifest.
+- update description.
 
 ## [0.0.10] - 2023-08-29
 
