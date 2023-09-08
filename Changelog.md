@@ -8,7 +8,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 ## [Unreleased]
 
 ### Changed
-- deprecate and rename feature `complete` to `all`.
+- remove `std` and `approx` from default features.
+- update dependencies: `devela`, `iunorm`, `macroquad`, `notcurses`, `tiny-skia`.
+- deprecate and rename feature `complete` to `full`.
+- add `full` feature to `nightly_docs`.
+- add `approx` feature to `full`.
+
+### Fixes
+- refactor manifest, update comments.
 
 ## [0.0.10] - 2023-08-29
 
